@@ -13,10 +13,10 @@
 
         canvas { border: solid 1px #898989; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1 }
 
-        #codeinput { border: solid 0px #00ff00; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
+        #codeinput { border: solid 0px #00ff00; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; display: none;}
 
-        #message {
-            animation: glitch 6s linear infinite;
+        #messagecontainer {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; display: none; color: white; padding: 50px;
         }
 
         @keyframes glitch{
@@ -41,21 +41,30 @@
     <canvas id="canvas" width="500" height="350"></canvas>
     <script src="script.js?v=1.2"></script>
 
-    <div id="codewall">
-
-    </div>
-
-    <div id="codeinput" style="padding: 50px; color: white">
-        <div id="message">
+    <div id="messagecontainer">
+        <div id="message" style="animation: glitch 6s linear infinite;">
             You should not be here.
         </div>
-        <!-- <select>
-            <option>asdasd</option>
-            <option>s</option>
-            <option>2</option>
-            <option>3</option>
-
-        </select> -->
     </div>
+
+    <div id="codeinput" style="padding: 50px; ">
+
+        <div id="c10">
+            <select>
+                <option>4</option>
+            </select>
+            <select>
+                <option>0</option>
+            </select>
+            <select>
+                <option>4</option>
+            </select>
+        </div>
+
+        <button id="solve">OK</button>
+    
+        
+    </div>
+
 </body>
 </html>
