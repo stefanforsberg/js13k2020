@@ -34,6 +34,10 @@ ready(() => {
 
     drawRoom();
 
+    g.ctx.font = "30px Arial";
+        g.ctx.fillStyle = "red";
+        g.ctx.fillText(`Ready`, 10, 50);
+
 });
 
 function drawRoom() {
