@@ -7,32 +7,55 @@
     <style>
         body {
             margin: 0;
-            padding: 0
+            padding: 0;
+            background-color: #787878;
         }
 
-        canvas { border: solid 1px #00ff00; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1 }
+        canvas { border: solid 1px #898989; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1 }
 
-        #codeinput { border: solid 1px #00ff00; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1 }
+        #codeinput { border: solid 0px #00ff00; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
+
+        #message {
+            animation: glitch 6s linear infinite;
+        }
+
+        @keyframes glitch{
+            2%,64%{
+                transform: translate(2px,0) skew(0deg);
+            }
+            22%,84%{
+                transform: translate(0,2px) skew(2deg);
+            }
+            14%,70%{
+                transform: translate(-2px,0) skew(0deg);
+            }
+            62%{
+                transform: translate(0,0) skew(5deg); 
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <canvas id="canvas" width="350" height="500"></canvas>
-    <script src="script.js?v=1.1"></script>
+    <canvas id="canvas" width="500" height="350"></canvas>
+    <script src="script.js?v=1.2"></script>
 
     <div id="codewall">
 
     </div>
 
-    <div id="codeinput" style="padding: 50px;">
-        <select>
+    <div id="codeinput" style="padding: 50px; color: white">
+        <div id="message">
+            You should not be here.
+        </div>
+        <!-- <select>
             <option>asdasd</option>
             <option>s</option>
             <option>2</option>
             <option>3</option>
 
-        </select>
+        </select> -->
     </div>
 </body>
 </html>
