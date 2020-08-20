@@ -13,12 +13,12 @@
             font-size: 1vw;
         }
 
-        canvas { border: solid 1px rgba(0,0,0,0.3); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1 }
+        canvas { border: solid 1px rgba(0,0,0,0.3);  }
 
         #codecontainer { border: solid 0px #00ff00; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; display: none;}
 
         #messagecontainer {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; display: none; color: white; 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; display: none; color: white; border: solid 1px #343434; padding: 1rem; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6))
         }
 
         @keyframes glitch{
@@ -63,14 +63,23 @@
 
 <body>
 
-    <canvas id="canvas" width="500" height="250"></canvas>
-    <script src="script.js?v=1.55"></script>
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div style="position: relative">
+            <canvas id="canvas" width="500" height="250">
+        </div>
 
-    <div id="messagecontainer">
-        <div id="message" style="animation: glitch 6s linear infinite;">
-            You should not be here.
+        <div id="messagecontainer">
+            <div id="message" style="animation: glitch 6s linear infinite;">
+                You should not be here.
+            </div>
         </div>
     </div>
+
+    </canvas>
+    <script src="script.js?v=1.56"></script>
+
+
+
 
     <div id="codecontainer" >
 

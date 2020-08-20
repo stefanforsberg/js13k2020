@@ -6,17 +6,14 @@ let g = {
     pos: 0,
     dir: 2,
     room: [
-        [1,0,1,1, "#898989"],
-        [1,1,1,0, "#898989"],
-        [1,0,1,0, "#e7fbbd"],
-        [1,1,1,0, "#898989"],
-        [1,1,1,0, "#bee5c7"]
+        [1,0,1,1, "#898989",0,0,0,"You should not be here"],
+        [1,1,1,0, "#898989","You should not be here","code10",0,0],
+        [1,0,1,0, "#e7fbbd",0,0,0,0],
+        [1,1,1,0, "#898989",0,0,0,0],
+        [1,1,1,0, "#bee5c7",0,0,0,0]
     ],
-    text: {
-        t02: "You should not be here"
-    },
     code: {
-        c10: ["c10","404", ()=> {
+        code10: ["c10","404", ()=> {
                 return generateSelect([4])+generateSelect([0])+generateSelect([4]);
             },()=> {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
@@ -35,7 +32,7 @@ let g = {
     },
     alphaR0: "rgba(0,0,0,0)",
     alphaR1: "rgba(0,0,0,0.2)",
-    alphaR2: "rgba(0,0,0,1)",
+    alphaR2: "rgba(0,0,0,0.9)",
 };
 
 function ready(fn) {
@@ -62,31 +59,6 @@ function setCanvas() {
         w = 800;
     }
 
-    // if(h > w && h > 800) {
-    //     console.log("h>w")
-    //     w = 800*0.75
-    //     h = 800
-    // } else if (w > h && w > 1000) {
-    //     h = 1000*0.75
-    //     w = 1000
-    // }
-     
-    
-    // if(h > w) {
-    //     h = h;
-
-    // }
-
-
-    // if(h > 700) {
-    //     h = 700;
-    // }  else if( h <= 300) {
-    //     h = 150
-    // }
-
-
-    // const w = h*1.75;
-
     g.w = w;
     g.w2 = w/2;
     g.h = h;
@@ -96,6 +68,9 @@ function setCanvas() {
 
     g.c.width = w;
     g.c.height = h; 
+
+    g.xdiff = Math.round(g.w > g.h ? g.w/10 : g.w/8);
+    g.ydiff = Math.round(g.w > g.h ? g.h/8 : g.h/15);
 }
 
 ready(async () => {
@@ -111,7 +86,8 @@ ready(async () => {
     g.codeInput = document.getElementById("code");
 
     document.getElementById("solve").addEventListener("click", () => {
-        const c = g.code[`c${g.pos}${g.dir}`];
+        
+        const c = g.code[`code${g.pos}${g.dir}`];
         if(c[3]() === c[1]) {
             c[4]();
             g.code[`c${g.pos}${g.dir}`] = undefined;
@@ -123,14 +99,13 @@ ready(async () => {
     })
 
     g.c.addEventListener("click", (e) => {
+        const x = e.offsetX;
+        const y = e.offsetY;
 
-        const x = e.clientX - g.c.offsetLeft + g.w2;
-        const y = e.clientY - g.c.offsetTop + g.h2;
-
-        if(x < 100) {
+        if(x < g.xdiff) {
             g.dir--;
             if(g.dir < 0) { g.dir = 3}
-        } else if(x > g.w-100) {
+        } else if(x > g.w-g.xdiff) {
             g.dir++;
             if(g.dir > 3) { g.dir = 0}
         } else {
@@ -182,17 +157,26 @@ ready(async () => {
 
 });
 
-function getRoom() {
-    const r = g.room[g.pos];
+function getRoom(relativePos = 0) {
+
+    if(relativePos != 0) {
+        if(g.dir === 0) relativePos = g.pos + 1;
+
+        if(g.dir === 2) relativePos = g.pos - 1;
+    } else {
+        relativePos = g.pos;
+    }
+
+    const r = g.room[relativePos];
     switch(g.dir) {
         case 0:
-            return [r[0],r[1],r[2], r[4]];
+            return [r[0],r[1],r[2], r[4], r[5],r[6],r[7]];
         case 1:
-            return [r[1],r[2],r[3], r[4]];
+            return [r[1],r[2],r[3], r[4], r[6],r[7],r[8]];
         case 2:
-            return [r[2],r[3],r[0], r[4]];            
+            return [r[2],r[3],r[0], r[4], r[7],r[8],r[5]];            
         case 3:
-            return [r[3],r[0],r[1], r[4]];
+            return [r[3],r[0],r[1], r[4], r[8],r[5],r[6]];
     }
 }
 
@@ -200,9 +184,20 @@ function getNextRoomColor() {
 
     const nextRoomIndex = (g.dir === 0 || g.dir === 3) ? g.pos+1 : g.pos-1;
 
-    console.log("Next room: " + nextRoomIndex)
-
     return g.room[nextRoomIndex][4]
+}
+
+function getNextNextRoomColor() {
+
+    let nextNextRoomIndex = (g.dir === 0 || g.dir === 3) ? g.pos+2 : g.pos-2;
+
+    if(nextNextRoomIndex >= g.room.length) {
+        nextNextRoomIndex = nextNextRoomIndex-1;
+    } else if(nextNextRoomIndex <= 0) {
+        nextNextRoomIndex = 0;
+    }
+
+    return g.room[nextNextRoomIndex][4]
 }
 
 function drawRoom() {
@@ -211,13 +206,13 @@ function drawRoom() {
     g.codeContainer.style.display="none";
     g.ctx.clearRect(0, 0, g.w, g.h);
 
-    var r = getRoom();
+    const r = getRoom();
 
     g.ctx.fillStyle = r[3];
     g.ctx.fillRect(0, 0, g.w, g.h);
 
-    const xdiff = g.w > g.h ? g.w/10 : g.w/8;
-    const ydiff = g.w > g.h ? g.h/8 : g.h/15;
+    const xdiff = Math.round(g.w > g.h ? g.w/10 : g.w/8);
+    const ydiff = Math.round(g.w > g.h ? g.h/8 : g.h/15);
 
     // Ceiling
     var grd = g.ctx.createLinearGradient(0, 0, 0, ydiff);
@@ -243,36 +238,67 @@ function drawRoom() {
 
     } else {
         g.ctx.drawWall(0,0,xdiff, ydiff, xdiff,g.h-ydiff,0,g.h, r[3],g.alphaR0,g.alphaR1)
+
+        if(r[4] != 0) {
+            
+            g.ctx.beginPath();
+
+            g.ctx.moveTo(0,g.h2-ydiff/2);
+            g.ctx.lineTo(xdiff-xdiff/2, g.h2-ydiff/3);
+            g.ctx.lineTo(xdiff-xdiff/2,g.h2+ydiff/3);
+            g.ctx.lineTo(0, g.h2+ydiff/2);
+            g.ctx.lineTo(0,g.h2-ydiff/2);
+
+            var grd = g.ctx.createLinearGradient(0, g.h2-ydiff, 0, g.h2+ydiff);
+            grd.addColorStop(0, "rgba(0,0,0,0.4)");
+            grd.addColorStop(1, "rgba(0,0,0,0.6)");
+            g.ctx.fillStyle = grd;
+            g.ctx.fill();
+            g.ctx.stroke();
+            
+
+            // g.ctx.line(x1,y1,x2,y2)
+            // g.ctx.line(x3,y3,x4,y4)
+
+            // g.ctx.drawWall(0,g.h2-ydiff,xdiff-15, g.h2-ydiff/2, xdiff-15,g.h2+ydiff/2, 0, g.h2+ydiff, r[3], g.alphaR0, g.alphaR1)
+        }
     }
 
     // center view
     if(r[1] === 0) {
         // // draw room one step forward
 
-        const nextRoomColor = getNextRoomColor();
+        const nextRoom = getRoom(1)
+        
+
+        //const nextRoomColor = getNextRoomColor();
 
         var grd = g.ctx.createLinearGradient(xdiff, ydiff, xdiff, ydiff+ydiff);
         grd.addColorStop(0, g.alphaR1);
         grd.addColorStop(1, g.alphaR2);
-        g.ctx.fillStyle = nextRoomColor
+        g.ctx.fillStyle = nextRoom[3]
         g.ctx.fillRect(xdiff, ydiff, g.w-xdiff*2, ydiff);
         g.ctx.fillStyle = grd;
         g.ctx.fillRect(xdiff, ydiff, g.w-xdiff*2, ydiff);
 
+        console.log("nr: " + nextRoom[4])
+
         var grd = g.ctx.createLinearGradient(xdiff, g.h-ydiff, xdiff, g.h-ydiff*2);
         grd.addColorStop(0, g.alphaR1);
         grd.addColorStop(1, g.alphaR2);
-        g.ctx.fillStyle = nextRoomColor
+        g.ctx.fillStyle = nextRoom[3]
         g.ctx.fillRect(xdiff, g.h-ydiff*2, g.w-xdiff*2, ydiff);
         g.ctx.fillStyle = grd;
         g.ctx.fillRect(xdiff, g.h-ydiff*2, g.w-xdiff*2, ydiff);
 
         // left wall
-        g.ctx.drawWall(xdiff,ydiff,xdiff+xdiff, ydiff+ydiff, xdiff+xdiff,g.h-ydiff-ydiff,xdiff,g.h-ydiff, nextRoomColor,g.alphaR1,g.alphaR2)
+        g.ctx.drawWall(xdiff,ydiff,xdiff+xdiff, ydiff+ydiff, xdiff+xdiff,g.h-ydiff-ydiff,xdiff,g.h-ydiff, nextRoom[3],g.alphaR1,g.alphaR2)
 
         // right wall
-        g.ctx.drawWall(g.w-xdiff, ydiff,g.w-xdiff-xdiff,ydiff+ydiff, g.w-xdiff-xdiff,g.h-ydiff-ydiff,g.w-xdiff,g.h-ydiff, nextRoomColor,g.alphaR1,g.alphaR2)
+        g.ctx.drawWall(g.w-xdiff, ydiff,g.w-xdiff-xdiff,ydiff+ydiff, g.w-xdiff-xdiff,g.h-ydiff-ydiff,g.w-xdiff,g.h-ydiff, nextRoom[3],g.alphaR1,g.alphaR2)
 
+        g.ctx.fillStyle = getNextNextRoomColor();
+        g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
         g.ctx.fillStyle = g.alphaR2
         g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
 
@@ -280,6 +306,20 @@ function drawRoom() {
         // A wall is in front of us
         g.ctx.fillStyle = g.alphaR1,g.alphaR1
         g.ctx.fillRect(xdiff, ydiff, g.w-2*xdiff, g.h-2*ydiff);
+
+        // Write text message
+        if(r[5] != 0) {
+            if(r[5].startsWith("code")) {
+                g.codeInput.innerHTML = g.code[r[5]][2]();
+                g.codeContainer.style.display="block";
+            } else {
+                g.msg.innerText = r[5];
+                g.msgContainer.style.display="block";
+            }
+        }
+
+        // Write code message
+
     }
 
     // right view
@@ -300,18 +340,18 @@ function drawRoom() {
     g.ctx.stroke();
 
     
-    const t = g.text[`t${g.pos}${g.dir}`];
-    if(t) {
-       g.msg.innerText = t;
-       g.msgContainer.style.display="block";
-    }
+    // const t = g.text[`t${g.pos}${g.dir}`];
+    // if(t) {
+    //    g.msg.innerText = t;
+    //    g.msgContainer.style.display="block";
+    // }
 
-    const c = g.code[`c${g.pos}${g.dir}`];
+    // const c = g.code[`c${g.pos}${g.dir}`];
 
-    if(c) {
-        g.codeInput.innerHTML = c[2]();
-        g.codeContainer.style.display="block";
-    }
+    // if(c) {
+    //     g.codeInput.innerHTML = c[2]();
+    //     g.codeContainer.style.display="block";
+    // }
 
     
 
