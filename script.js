@@ -107,14 +107,13 @@ ready(() => {
 
     g.c.addEventListener("click", (e) => {
 
-        // setTimeout(() => {
-        //     player.generate();
-        //     var wave = player.createWave();
-        //     const audio = document.getElementById("asong");
-        //     audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
-        //     audio.load();
-        //     audio.play();
-        // }, 1000);
+        // player.generate();
+
+        // var wave = player.createWave();
+        // const audio = document.getElementById("asong");
+        // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+        // audio.load();
+        // audio.play();
 
         const x = e.offsetX;
         const y = e.offsetY;
@@ -258,7 +257,7 @@ function drawRoom() {
     } else {
         g.ctx.drawWall(0,0,xdiff, ydiff, xdiff,g.h-ydiff,0,g.h, r[3],g.alphaR0,g.alphaR1)
 
-        if(r[4] != 0) {
+        if(r[4] != 0 && !r[4].startsWith("code")) {
             
             g.ctx.save();
 
