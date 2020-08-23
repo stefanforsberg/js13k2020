@@ -9,10 +9,12 @@ let g = {
     dir: 2,
     room: [
         [1,0,1,1, "#898989",0,0,0,"You should not be here"],
-        [1,1,1,0, "#898989","You should not be here","code10",0,0],
+        [1,1,1,0, "#898989",0,"code10",0,0],
         [1,0,1,0, "#e7fbbd",0,0,0,0],
-        [1,1,1,0, "#898989",0,0,0,0],
-        [1,1,1,0, "#bee5c7",0,0,0,0]
+        [1,1,1,0, "#898989",0,"code30",0,0],
+        [1,0,1,0, "#bee5c7",0,0,0,0],
+        [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
+        [1,1,1,0, "#898989",0,"code60",0,0],
     ],
     code: {
         code10: ["c10","404", ()=> {
@@ -23,8 +25,18 @@ let g = {
                 g.room[1][1] = 0;
                 g.room[1][4] = "#e7fbbd";
             }],
-        c30: ["c30","404", ()=> {
-                return generateSelect([0,1,2,3,4,5,6,7,8,9])+generateSelect([0,1,2,3,4,5,6,7,8,9])+generateSelect([0,1,2,3,4,5,6,7,8,9]);
+        code30: ["c30","404", ()=> {
+                const choices = Array.from(Array(10).keys());
+                return generateSelect(choices)+generateSelect(choices)+generateSelect(choices);
+            },()=> {
+                return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
+            }, () => {
+                g.room[3][1] = 0;
+                g.room[3][4] = "#bee5c7";
+            }],
+        code60: ["c60","16016", ()=> {
+                const choices = Array.from(Array(21).keys());
+                return generateSelect(choices)+generateSelect(choices)+generateSelect(choices);
             },()=> {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
@@ -50,8 +62,8 @@ function generateSelect(options) {
 }
 
 function setCanvas() {
-    let h = window.innerHeight - 30;
-    let w = window.innerWidth -30;
+    let h = window.innerHeight - 20;
+    let w = window.innerWidth - 20;
 
     if(h > 800) {
         h = 800;
@@ -335,14 +347,47 @@ function drawRoom() {
             g.ctx.restore();
         }
 
+        if(nextRoom[1] != 0) {
+
+            g.ctx.fillStyle = nextRoom[3]
+            g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
+            
+            g.ctx.fillStyle = g.alphaR2
+            g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
+
+            if(nextRoom[5] != 0 && nextRoom[5].startsWith("code")) {
+                console.log("code");
+    
+                const w = (g.w-xdiff*2)/2;
+
+                g.ctx.save();
+    
+                g.ctx.translate(g.w2,g.h2)
+    
+                g.ctx.fillStyle = "rgba(255,255,255,0.1)";
+    
+                g.ctx.fillRect(-w/2,-w/4,w,w/2)
+    
+                g.ctx.restore();
+            }
+
+
+
+
+        } else {
+            // Room two steps ahead
+            g.ctx.fillStyle = getNextNextRoomColor();
+            g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
+            g.ctx.fillStyle = g.alphaR2
+            g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
+        }
+
+        
+
         // right wall
         g.ctx.drawWall(g.w-xdiff, ydiff,g.w-xdiff-xdiff,ydiff+ydiff, g.w-xdiff-xdiff,g.h-ydiff-ydiff,g.w-xdiff,g.h-ydiff, nextRoom[3],g.alphaR1,g.alphaR2)
 
-        // Room two steps ahead
-        g.ctx.fillStyle = getNextNextRoomColor();
-        g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
-        g.ctx.fillStyle = g.alphaR2
-        g.ctx.fillRect(xdiff*2,ydiff*2,g.w-xdiff*4,g.h-ydiff*4)
+
 
     } else {
         // A wall is in front of us
