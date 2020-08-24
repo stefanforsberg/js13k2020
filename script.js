@@ -1,4 +1,5 @@
 import * as songs from './song.js';
+import { navigation} from './navigation.js';
 
 let g = {
     w: 500,
@@ -85,6 +86,10 @@ function setCanvas() {
 
     g.xdiff = Math.round(g.w > g.h ? g.w/10 : g.w/8);
     g.ydiff = Math.round(g.w > g.h ? g.h/8 : g.h/15);
+
+    const nav = document.getElementById("navigation")
+    nav.style.bottom = `${g.ydiff}px`
+    nav.style.height = `${1.5*g.ydiff}px`
 }
 
 ready(() => {
@@ -92,7 +97,8 @@ ready(() => {
     var player = new CPlayer();
     player.init(songs.song);
 
-    
+    g.drawRoom = drawRoom;
+    g.getRoom = getRoom;
 
     g.c = document.getElementById("canvas");
 
@@ -103,6 +109,9 @@ ready(() => {
     g.msgContainer = document.getElementById("messagecontainer")
     g.codeContainer = document.getElementById("codecontainer");
     g.codeInput = document.getElementById("code");
+
+    navigation.init(g);
+    
 
     document.getElementById("solve").addEventListener("click", () => {
         
@@ -117,40 +126,40 @@ ready(() => {
         };
     })
 
-    g.c.addEventListener("click", (e) => {
+    // g.c.addEventListener("click", (e) => {
 
-        // player.generate();
+    //     // player.generate();
 
-        // var wave = player.createWave();
-        // const audio = document.getElementById("asong");
-        // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
-        // audio.load();
-        // audio.play();
+    //     // var wave = player.createWave();
+    //     // const audio = document.getElementById("asong");
+    //     // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+    //     // audio.load();
+    //     // audio.play();
 
-        const x = e.offsetX;
-        const y = e.offsetY;
+    //     const x = e.offsetX;
+    //     const y = e.offsetY;
 
-        if(x < g.xdiff) {
-            g.dir--;
-            if(g.dir < 0) { g.dir = 3}
-        } else if(x > g.w-g.xdiff) {
-            g.dir++;
-            if(g.dir > 3) { g.dir = 0}
-        } else {
-            const r = getRoom();
-            if(r[1] === 0) {
-                g.pos += (g.dir === 0 ? 1 : -1);
-            }
-        }
+    //     if(x < g.xdiff) {
+    //         g.dir--;
+    //         if(g.dir < 0) { g.dir = 3}
+    //     } else if(x > g.w-g.xdiff) {
+    //         g.dir++;
+    //         if(g.dir > 3) { g.dir = 0}
+    //     } else {
+    //         const r = getRoom();
+    //         if(r[1] === 0) {
+    //             g.pos += (g.dir === 0 ? 1 : -1);
+    //         }
+    //     }
 
-        console.log("pos: " + g.pos)
+    //     console.log("pos: " + g.pos)
 
-        drawRoom();
+    //     drawRoom();
 
-        // g.ctx.font = "30px Arial";
-        // g.ctx.fillStyle = "red";
-        // g.ctx.fillText(`${e.clientX - c.offsetLeft + g.w2},${e.clientY - c.offsetTop + g.h2}`, 10, 50);
-    })
+    //     // g.ctx.font = "30px Arial";
+    //     // g.ctx.fillStyle = "red";
+    //     // g.ctx.fillText(`${e.clientX - c.offsetLeft + g.w2},${e.clientY - c.offsetTop + g.h2}`, 10, 50);
+    // })
 
 
     g.ctx.line = function(x1,y1,x2,y2) {
@@ -181,7 +190,9 @@ ready(() => {
         g.ctx.line(x3,y3,x4,y4)
     }
 
-    drawRoom();
+    // drawRoom();
+
+    navigation.update();
 
 });
 

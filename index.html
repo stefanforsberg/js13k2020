@@ -24,6 +24,16 @@
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; display: none; color: white; border: solid 1px #343434; padding: 1rem; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6))
         }
 
+        #navigation {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            display: flex;
+            justify-content: space-evenly;
+            opacity: 0.8;
+        }
+
         @keyframes glitch{
             2%,64%{
                 transform: translate(2px,0) skew(0deg);
@@ -73,6 +83,62 @@
             <div id="message" style="animation: glitch 6s linear infinite;">
                 You should not be here.
             </div>
+        </div>
+
+        <div id="navigation"> 
+            <div id="nav-left" style="height: 100%; opacity: 1">
+                <svg 
+                    version="1.1"
+                    viewBox="0 0 26.458333 26.458334"
+                    height="100%">
+                    
+                    <g
+                        id="layer1"
+                        inkscape:groupmode="layer"
+                        inkscape:label="Layer 1">
+                        <path
+                        transform="scale(0.26458333)"
+                        d="M 43.189453 11.326172 L 4.4980469 38.503906 L 44.361328 66.505859 L 43.890625 44.380859 L 55.134766 44.166016 C 61.425321 44.045086 65.295981 46.273891 68.880859 50.351562 C 72.465741 54.429231 75.266053 60.592825 77.111328 67.064453 C 80.801878 80.007706 80.779297 93.492188 80.779297 93.492188 L 94.509766 93.587891 C 94.509766 93.587891 94.690615 78.632904 90.318359 63.298828 C 88.132235 55.631788 84.826295 47.694365 79.193359 41.287109 C 73.560423 34.879857 65.096618 30.238935 54.869141 30.435547 L 43.599609 30.654297 L 43.189453 11.326172 z "
+                        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:0.69999999;fill-rule:nonzero;stroke:none;stroke-width:13.7308;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+                        id="path847" />
+                    </g>
+                </svg>
+            </div>
+
+            <div id="nav-forward" style="height: 100%; opacity: 1">
+                <svg
+                    viewBox="0 0 26.458333 26.458334"
+                    height="100%">
+                    <g
+                        id="layer1"
+                        inkscape:groupmode="layer"
+                        inkscape:label="Layer 1">
+                        <path
+                        sodipodi:nodetypes="cccccccc"
+                        d="m 6.0897638,12.255665 7.1907752,-10.2371012 7.03898,10.2798902 -5.116541,-0.0076 0.0095,11.890572 -3.968513,-0.02771 -0.04034,-11.889755 z"
+                        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:0.7;fill-rule:nonzero;stroke:none;stroke-width:3.63294;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+                        id="path847" />
+                    </g>
+                </svg>
+            </div>
+
+            <div id="nav-right"  style="height: 100%; opacity: 1">
+                <svg
+                    viewBox="0 0 26.458333 26.458334"
+                    height="100%">
+                    <g
+                        id="layer1"
+                        inkscape:groupmode="layer"
+                        inkscape:label="Layer 1">
+                        <path
+                        d="m 14.768887,2.9967163 10.237101,7.1907757 -10.54716,7.40885 0.12454,-5.853907 -2.975012,-0.05684 c -1.6643758,-0.032 -2.6884879,0.557708 -3.6369869,1.636592 -0.9485,1.078883 -1.6894159,2.709667 -2.1776449,4.421952 -0.976458,3.424569 -0.9704834,6.992338 -0.9704834,6.992338 l -3.6328532,0.02532 c 0,0 -0.04785,-3.95684 1.1089764,-8.013981 0.5784119,-2.028571 1.4531086,-4.128681 2.9434895,-5.823934 1.490381,-1.6952523 3.7297627,-2.9231629 6.4357825,-2.8711426 l 2.98173,0.057878 z"
+                        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:0.7;fill-rule:nonzero;stroke:none;stroke-width:3.63294;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+                        id="path847" />
+                    </g>
+                </svg>
+
+            </div>
+            
         </div>
     </div>
 
