@@ -111,7 +111,6 @@ ready(() => {
     g.codeInput = document.getElementById("code");
 
     navigation.init(g);
-    
 
     document.getElementById("solve").addEventListener("click", () => {
         
@@ -119,7 +118,7 @@ ready(() => {
         if(c[3]() === c[1]) {
             c[4]();
             g.code[`c${g.pos}${g.dir}`] = undefined;
-            drawRoom();
+            navigation.update();
             // correct
         } else {
             // wrong code
