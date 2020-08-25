@@ -1,4 +1,5 @@
 import * as songs from './song.js';
+import { intro } from './intro.js';
 import { navigation} from './navigation.js';
 
 let g = {
@@ -110,7 +111,18 @@ ready(() => {
     g.codeContainer = document.getElementById("codecontainer");
     g.codeInput = document.getElementById("code");
 
-    navigation.init(g);
+    console.log(intro)
+    
+    intro.init(g, () => {
+        intro.stop();
+
+        g.ctx.strokeStyle = `rgba(0,0,0,1)`;
+
+        navigation.init(g);
+        navigation.update();
+    });
+
+    intro.draw();
 
     document.getElementById("solve").addEventListener("click", () => {
         
@@ -191,7 +203,6 @@ ready(() => {
 
     // drawRoom();
 
-    navigation.update();
 
 });
 

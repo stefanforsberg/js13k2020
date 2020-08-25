@@ -1,5 +1,9 @@
 export const navigation = {
     init: function(g) {
+
+        document.getElementById("nav-left").style.opacity = 1
+        document.getElementById("nav-right").style.opacity = 1
+
         this.g = g;
         document.getElementById("nav-left").addEventListener("click", (e) => {
             g.dir--;
