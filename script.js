@@ -90,7 +90,12 @@ function setCanvas() {
 
     const nav = document.getElementById("navigation")
     nav.style.bottom = `${g.ydiff}px`
-    nav.style.height = `${1.5*g.ydiff}px`
+    nav.style.height = `${Math.floor(1.5*g.ydiff)}px`
+
+    Array.from(nav.getElementsByTagName("svg")).forEach(svg => {
+        svg.setAttribute("width", `${Math.floor(1.5*g.ydiff)}`)
+        svg.setAttribute("height", `${Math.floor(1.5*g.ydiff)}`)
+    })
 }
 
 ready(() => {
