@@ -12,6 +12,11 @@ export const intro = {
 
     draw: function(newtime) {
 
+
+        if(!this.drawing) {
+            return;
+        }
+
         if(!newtime) {
             newtime = window.performance.now()
         }
@@ -23,6 +28,8 @@ export const intro = {
     
         if(this.drawing) {
             window.requestAnimationFrame(this.draw.bind(this));
+        } else {
+            this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
         }
         
 
@@ -59,6 +66,7 @@ export const intro = {
 
     stop: function() {
         this.drawing = false;
+        this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
         document.getElementById("paige").style.display = 'none';
         document.getElementById("title").style.display = 'none';
     }

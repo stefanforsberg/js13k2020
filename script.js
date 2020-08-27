@@ -1,6 +1,7 @@
 import * as songs from './song.js';
 import { intro } from './intro.js';
 import { navigation} from './navigation.js';
+import { room } from './room.js'
 
 let g = {
     w: 500,
@@ -11,6 +12,7 @@ let g = {
     dir: 2,
     room: [
         [1,0,1,1, "#898989",0,0,0,"You should not be here"],
+        [1,0,1,0, "#898989",0,0,0,0],
         [1,1,1,0, "#898989",0,"code10",0,0],
         [1,0,1,0, "#e7fbbd",0,0,0,0],
         [1,1,1,0, "#898989",0,"code30",0,0],
@@ -48,7 +50,8 @@ let g = {
     },
     alphaR0: "rgba(0,0,0,0)",
     alphaR1: "rgba(0,0,0,0.2)",
-    alphaR2: "rgba(0,0,0,0.9)",
+    alphaR2: "rgba(0,0,0,0.7)",
+    alphaR3: "rgba(0,0,0,0.9)",
 };
 
 function ready(fn) {
@@ -117,6 +120,8 @@ ready(() => {
     g.codeInput = document.getElementById("code");
 
     console.log(intro)
+
+    room.init(g);
     
     intro.init(g, () => {
         intro.stop();
@@ -213,15 +218,18 @@ ready(() => {
 
 function getRoom(relativePos = 0) {
 
-    if(relativePos != 0) {
-        if(g.dir === 0) relativePos = g.pos + 1;
-
-        if(g.dir === 2) relativePos = g.pos - 1;
+    if(g.dir === 0) {
+        relativePos = g.pos + relativePos
+    }
+    else if (g.dir === 2) 
+    {
+        relativePos = g.pos - relativePos;
     } else {
         relativePos = g.pos;
     }
 
     const r = g.room[relativePos];
+
     switch(g.dir) {
         case 0:
             return [r[0],r[1],r[2], r[4], r[5],r[6],r[7]];
@@ -255,6 +263,10 @@ function getNextNextRoomColor() {
 }
 
 function drawRoom() {
+
+    room.drawRoom();
+
+    return;
 
     console.log("drawing room")
 

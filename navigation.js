@@ -29,6 +29,9 @@ export const navigation = {
 
     },
     update: function() {
+
+        console.log(this.g.dir)
+
         document.getElementById("nav-forward").style.opacity = 1
 
         this.g.drawRoom();
