@@ -8,9 +8,12 @@ export const intro = {
         this.drawing = true;
 
         document.getElementById("paige").addEventListener("click", callback);
+
+        
     },
 
     draw: function(newtime) {
+
 
 
         if(!this.drawing) {
@@ -33,8 +36,6 @@ export const intro = {
         if (elapsed > this.fpsInterval) {
             this.now  = newtime - (elapsed % this.fpsInterval);
     
-            
-
             const x1 = this.g.w2 - (this.g.w2 / 2) + Math.floor(Math.random()*5)
             const y1 = this.g.h2 - (this.g.h2 / 2) + Math.floor(Math.random()*5)
 

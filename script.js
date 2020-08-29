@@ -1,5 +1,6 @@
 import * as songs from './song.js';
 import { intro } from './intro.js';
+import { solve } from './solve.js';
 import { navigation} from './navigation.js';
 import { room } from './room.js'
 
@@ -14,9 +15,9 @@ let g = {
         [1,0,1,1, "#898989",0,0,0,"You should not be here"],
         [1,0,1,0, "#898989","4-ever",0,"4-ever",0],
         [1,1,1,0, "#898989",0,"code20",0,0],
-        [1,0,1,0, "#e7fbbd",0,0,0,0],
+        [1,0,1,0, "#898989",0,0,0,0],
         [1,1,1,0, "#898989",0,"code40",0,0],
-        [1,0,1,0, "#bee5c7",0,0,0,0],
+        [1,0,1,0, "#898989",0,0,0,0],
         [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
         [1,1,1,0, "#898989",0,"code60",0,0],
     ],
@@ -27,7 +28,6 @@ let g = {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
                 g.room[2][1] = 0;
-                g.room[2][4] = "#e7fbbd";
             }],
         code40: ["c40","404", ()=> {
                 const choices = Array.from(Array(10).keys());
@@ -36,7 +36,6 @@ let g = {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
                 g.room[4][1] = 0;
-                g.room[4][4] = "#bee5c7";
             }],
         code60: ["c60","16016", ()=> {
                 const choices = Array.from(Array(21).keys());
@@ -45,7 +44,6 @@ let g = {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
                 g.room[3][1] = 0;
-                g.room[3][4] = "#bee5c7";
             }],
     },
     alphaR0: "rgba(0,0,0,0)",
@@ -83,10 +81,11 @@ function setCanvas() {
     g.h = h;
     g.h2 = h/2
 
-    g.c = document.getElementById("canvas");
-
     g.c.width = w;
     g.c.height = h; 
+
+    g.ce.width = w;
+    g.ce.height = h; 
 
     g.xdiff = Math.round(g.w > g.h ? g.w/10 : g.w/8);
     g.ydiff = Math.round(g.w > g.h ? g.h/8 : g.h/15);
@@ -104,26 +103,39 @@ function setCanvas() {
 ready(() => {
 
     var player = new CPlayer();
+    // player.init(songs.song);
+    player.init(songs.errorsound);
+
+    player.generate();
+    var wave = player.createWave();
+    let audio = document.getElementById("errorsound");
+    audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+
     player.init(songs.song);
+
+    player.generate();
+    var wave = player.createWave();
+    audio = document.getElementById("asong");
+    audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+    // audio.load();
+    // audio.play();
 
     g.drawRoom = drawRoom;
     g.getRoom = getRoom;
 
     g.c = document.getElementById("canvas");
+    g.ce = document.getElementById("canvaseffect");
 
     setCanvas();
 
     g.ctx = g.c.getContext("2d");
+    g.ctxe = g.ce.getContext("2d");
     g.msg = document.getElementById("message")
     g.msgContainer = document.getElementById("messagecontainer")
     g.codeContainer = document.getElementById("codecontainer");
     g.codeOverlay = document.getElementById("codeoverlay")
     g.codeInput = document.getElementById("code");
 
-    console.log(intro)
-
-    room.init(g);
-    
     intro.init(g, () => {
         intro.stop();
 
@@ -135,15 +147,39 @@ ready(() => {
 
     intro.draw();
 
+    
+
+    room.init(g);
+    
+
+
     document.getElementById("solve").addEventListener("click", () => {
         
+        let audio = document.getElementById("asong");
+        audio.load();
+        audio.play();
+
+        audio = document.getElementById("errorsound");
+        audio.load();
+        audio.play();
+
         const c = g.code[`code${g.pos}${g.dir}`];
         if(c[3]() === c[1]) {
             // correct
-            c[4]();
-            console.log("solved: " + g.room[g.pos][6])
-            g.room[g.pos][6] = 0
-            navigation.update();
+
+            
+
+            solve.init(g, () => {
+                c[4]();
+                console.log("solved: " + g.room[g.pos][6])
+                g.room[g.pos][6] = 0
+                navigation.update();
+                
+            });
+
+            solve.draw();
+
+            
 
         } else {
             // wrong code
@@ -186,7 +222,7 @@ ready(() => {
     // })
 
 
-    g.ctx.line = function(x1,y1,x2,y2) {
+    g.ctx.line = g.ctxe.line = function(x1,y1,x2,y2) {
         this.beginPath();
         this.moveTo(x1, y1);
         this.lineTo(x2, y2);
