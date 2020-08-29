@@ -9,34 +9,34 @@ let g = {
     w2: 500/2,
     h2: 250/2,
     pos: 0,
-    dir: 2,
+    dir: 0,
     room: [
         [1,0,1,1, "#898989",0,0,0,"You should not be here"],
-        [1,0,1,0, "#898989",0,0,0,0],
-        [1,1,1,0, "#898989",0,"code10",0,0],
+        [1,0,1,0, "#898989","4-ever",0,"4-ever",0],
+        [1,1,1,0, "#898989",0,"code20",0,0],
         [1,0,1,0, "#e7fbbd",0,0,0,0],
-        [1,1,1,0, "#898989",0,"code30",0,0],
+        [1,1,1,0, "#898989",0,"code40",0,0],
         [1,0,1,0, "#bee5c7",0,0,0,0],
         [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
         [1,1,1,0, "#898989",0,"code60",0,0],
     ],
     code: {
-        code10: ["c10","404", ()=> {
+        code20: ["c20","404", ()=> {
                 return generateSelect([4])+generateSelect([0])+generateSelect([4]);
             },()=> {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
-                g.room[1][1] = 0;
-                g.room[1][4] = "#e7fbbd";
+                g.room[2][1] = 0;
+                g.room[2][4] = "#e7fbbd";
             }],
-        code30: ["c30","404", ()=> {
+        code40: ["c40","404", ()=> {
                 const choices = Array.from(Array(10).keys());
                 return generateSelect(choices)+generateSelect(choices)+generateSelect(choices);
             },()=> {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
-                g.room[3][1] = 0;
-                g.room[3][4] = "#bee5c7";
+                g.room[4][1] = 0;
+                g.room[4][4] = "#bee5c7";
             }],
         code60: ["c60","16016", ()=> {
                 const choices = Array.from(Array(21).keys());
@@ -117,6 +117,7 @@ ready(() => {
     g.msg = document.getElementById("message")
     g.msgContainer = document.getElementById("messagecontainer")
     g.codeContainer = document.getElementById("codecontainer");
+    g.codeOverlay = document.getElementById("codeoverlay")
     g.codeInput = document.getElementById("code");
 
     console.log(intro)
@@ -138,10 +139,12 @@ ready(() => {
         
         const c = g.code[`code${g.pos}${g.dir}`];
         if(c[3]() === c[1]) {
-            c[4]();
-            g.code[`c${g.pos}${g.dir}`] = undefined;
-            navigation.update();
             // correct
+            c[4]();
+            console.log("solved: " + g.room[g.pos][6])
+            g.room[g.pos][6] = 0
+            navigation.update();
+
         } else {
             // wrong code
         };

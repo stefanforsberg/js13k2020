@@ -60,8 +60,29 @@ export const room = {
                 this.g.ctx.line(x1+scaleFactorX, this.g.h - scaleFactorY, x1+scaleFactorX + this.xdiff, this.g.h - scaleFactorY - this.ydiff)
 
                 this.g.ctx.drawWall(x1+scaleFactorX,y1+scaleFactorY, x1+scaleFactorX + this.xdiff, y1+scaleFactorY + this.ydiff, x1 +scaleFactorX + this.xdiff, this.g.h - scaleFactorY- this.ydiff, x1 + scaleFactorX, this.g.h - scaleFactorY, currentRoom[3], this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
+
+                // Has text written on wall
+                if(currentRoom[4] !== 0) {
+
+                    this.g.ctx.save();
+                    this.g.ctx.rect(x1+scaleFactorX, 0, x1+scaleFactorX + this.xdiff, this.g.h);
+                    this.g.ctx.clip();
+
+                    this.g.ctx.beginPath();
+                    this.g.ctx.fillStyle = "rgba(0,0,0,0.3)"
+                    this.g.ctx.moveTo(0, this.g.h2-this.g.h2/6)
+                    this.g.ctx.lineTo(this.g.w2, this.g.h2)
+                    this.g.ctx.lineTo(0, this.g.h2+this.g.h2/6)
+
+                    this.g.ctx.fill();
+
+                    this.g.ctx.restore();
+                }
+                
             } else {
+                
                 this.g.ctx.line(x1+scaleFactorX, y1 + scaleFactorY+this.ydiff, x1+scaleFactorX + this.xdiff, y1 +scaleFactorY + this.ydiff)
+
             }
 
             if(currentRoom[2] === 1) {
@@ -73,8 +94,8 @@ export const room = {
                 this.g.ctx.line(this.g.w - scaleFactorX, y1 + scaleFactorY + this.ydiff, this.g.w - scaleFactorX - this.xdiff, y1 + scaleFactorY + this.ydiff)
             }
             
-            // Current room is a wall forward, no need to dry and draw anything more
-            if(currentRoom[1] === 1) {
+            
+            if(currentRoom[1] === 1 || i === (rooms-1)) {
 
                 this.g.ctx.fillStyle = currentRoom[3]
                 this.g.ctx.fillRect(this.xdiff + scaleFactorX, this.ydiff + scaleFactorY, this.g.w -2*scaleFactorX - 2*this.xdiff, this.g.h-2*scaleFactorY - 2*this.ydiff);
@@ -82,9 +103,45 @@ export const room = {
                 this.g.ctx.fillRect(this.xdiff + scaleFactorX, this.ydiff + scaleFactorY, this.g.w -2*scaleFactorX - 2*this.xdiff, this.g.h-2*scaleFactorY - 2*this.ydiff);
                 this.g.ctx.strokeRect(this.xdiff + scaleFactorX, this.ydiff + scaleFactorY, this.g.w -2*scaleFactorX - 2*this.xdiff, this.g.h-2*scaleFactorY - 2*this.ydiff);    
 
+                this.drawWallDecorations(currentRoom, i);
+
+                // Current room is a wall forward or as far forward as we want to draw, no need to dry and draw anything more
                 break;
             }
 
+        }
+    },
+
+    drawWallDecorations: function(room, distance) {
+        // Write text message
+        if(room[5] != 0) {
+            if(room[5].startsWith("code")) {
+                
+                this.g.codeContainer.style.display="block";
+                this.g.codeInput.innerHTML = this.g.code[room[5]][2]();
+
+                if(distance === 0) {
+                    this.g.codeOverlay.style.display = 'none'
+                    this.g.codeContainer.style.opacity = `1`
+                    this.g.codeContainer.style.transform = `translate(-50%,-50%) scale(1)`
+                } else {
+                    this.g.codeOverlay.style.display = 'block'
+                    this.g.codeContainer.style.opacity = `${1-0.4*distance}`
+                    this.g.codeContainer.style.transform = `translate(-50%,-50%) scale(${1-0.4*distance})`
+                }
+            } else {
+                this.g.msg.innerText = room[5];
+                
+                this.g.msg.classList.remove("glitchanimation")
+
+                this.g.msgContainer.style.display="block";
+                this.g.msgContainer.style.opacity = `${1-0.4*distance}`
+                this.g.msgContainer.style.transform = `translate(-50%,-50%) scale(${1-0.4*distance})`
+                
+                if(distance === 0) {
+                    this.g.msg.classList.add("glitchanimation")
+                }
+            }
         }
     }
 }

@@ -21,10 +21,7 @@ export const intro = {
             newtime = window.performance.now()
         }
 
-        // this.now = newtime;
         const elapsed = newtime - this.now;
-    
-        // if enough time has elapsed, draw the next frame
     
         if(this.drawing) {
             window.requestAnimationFrame(this.draw.bind(this));
