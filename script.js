@@ -19,7 +19,8 @@ let g = {
         [1,1,1,0, "#898989",0,"code40",0,0],
         [1,0,1,0, "#898989",0,0,0,0],
         [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
-        [1,1,1,0, "#898989",0,"code60",0,0],
+        [1,1,1,0, "#898989",0,"code70",0,0],
+        [1,1,1,0, "#898989",0,"Slut på betan =)",0,0],
     ],
     code: {
         code20: ["c20","404", ()=> {
@@ -37,13 +38,13 @@ let g = {
             }, () => {
                 g.room[4][1] = 0;
             }],
-        code60: ["c60","16016", ()=> {
+        code70: ["c70","16016", ()=> {
                 const choices = Array.from(Array(21).keys());
                 return generateSelect(choices)+generateSelect(choices)+generateSelect(choices);
             },()=> {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
-                g.room[3][1] = 0;
+                g.room[7][1] = 0;
             }],
     },
     alphaR0: "rgba(0,0,0,0)",
@@ -100,33 +101,27 @@ function setCanvas() {
     })
 }
 
-ready(() => {
+function preloadAudio(player, cb) {
 
-    var player = new CPlayer();
-    // player.init(songs.song);
-    player.init(songs.errorsound);
+    const done = player.generate() >= 1
 
-    player.generate();
-    var wave = player.createWave();
-    let audio = document.getElementById("errorsound");
-    audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+    console.log("preloading audio " + done)
 
-    player.init(songs.song);
+    if(done) {
+        const wave = player.createWave()
+        const blob = new Blob([wave], {type: "audio/wav"})
+        const url = window.URL.createObjectURL(blob)        
+        cb(url)
+    } else {
+        setTimeout(() => {return preloadAudio(player, cb)}, 500)
+    }
+}
 
-    player.generate();
-    var wave = player.createWave();
-    audio = document.getElementById("asong");
-    audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
-    // audio.load();
-    // audio.play();
-
+function startGame () {
     g.drawRoom = drawRoom;
     g.getRoom = getRoom;
 
-    g.c = document.getElementById("canvas");
-    g.ce = document.getElementById("canvaseffect");
 
-    setCanvas();
 
     g.ctx = g.c.getContext("2d");
     g.ctxe = g.ce.getContext("2d");
@@ -137,6 +132,10 @@ ready(() => {
     g.codeInput = document.getElementById("code");
 
     intro.init(g, () => {
+
+        g.audioSong.loop = true;
+        g.audioSong.play();
+
         intro.stop();
 
         g.ctx.strokeStyle = `rgba(0,0,0,1)`;
@@ -155,13 +154,8 @@ ready(() => {
 
     document.getElementById("solve").addEventListener("click", () => {
         
-        let audio = document.getElementById("asong");
-        audio.load();
-        audio.play();
-
-        audio = document.getElementById("errorsound");
-        audio.load();
-        audio.play();
+       
+        g.audioErrorSound.play();
 
         const c = g.code[`code${g.pos}${g.dir}`];
         if(c[3]() === c[1]) {
@@ -185,42 +179,6 @@ ready(() => {
             // wrong code
         };
     })
-
-    // g.c.addEventListener("click", (e) => {
-
-    //     // player.generate();
-
-    //     // var wave = player.createWave();
-    //     // const audio = document.getElementById("asong");
-    //     // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
-    //     // audio.load();
-    //     // audio.play();
-
-    //     const x = e.offsetX;
-    //     const y = e.offsetY;
-
-    //     if(x < g.xdiff) {
-    //         g.dir--;
-    //         if(g.dir < 0) { g.dir = 3}
-    //     } else if(x > g.w-g.xdiff) {
-    //         g.dir++;
-    //         if(g.dir > 3) { g.dir = 0}
-    //     } else {
-    //         const r = getRoom();
-    //         if(r[1] === 0) {
-    //             g.pos += (g.dir === 0 ? 1 : -1);
-    //         }
-    //     }
-
-    //     console.log("pos: " + g.pos)
-
-    //     drawRoom();
-
-    //     // g.ctx.font = "30px Arial";
-    //     // g.ctx.fillStyle = "red";
-    //     // g.ctx.fillText(`${e.clientX - c.offsetLeft + g.w2},${e.clientY - c.offsetTop + g.h2}`, 10, 50);
-    // })
-
 
     g.ctx.line = g.ctxe.line = function(x1,y1,x2,y2) {
         this.beginPath();
@@ -251,6 +209,60 @@ ready(() => {
     }
 
     // drawRoom();
+}
+
+ready(() => {
+
+    var player = new CPlayer();
+
+    g.c = document.getElementById("canvas");
+    g.ce = document.getElementById("canvaseffect");
+
+    setCanvas();
+
+    player.init(songs.song);
+    
+
+    g.audioSong = new Audio();
+    g.audioErrorSound = new Audio()
+
+    preloadAudio(player, (url) => {
+        g.audioSong.src = url;
+
+        player.init(songs.errorsound);
+
+        preloadAudio(player, (url) => {
+            player.init(songs.errorsound);
+            g.audioErrorSound.src = url
+
+            startGame();
+        })
+        
+    });
+
+    // startGame()
+
+    console.log("done preloading")
+    
+    // player.init(songs.errorsound);
+    // g.audioErrorSound = new Audio()    
+    // g.audioErrorSound.src = preloadAudio(player);
+
+    // player.generate();
+    // var wave = player.createWave();
+    // let audio = document.getElementById("errorsound");
+    // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+
+    // player.init(songs.song);
+
+    // player.generate();
+    // var wave = player.createWave();
+    // audio = document.getElementById("asong");
+    // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+    // audio.load();
+    // audio.play();
+
+    
 
 
 });
@@ -880,58 +892,4 @@ var CPlayer = function() {
     };
 };
 
-    // // This music has been exported by SoundBox. You can use it with
-    // // http://sb.bitsnbites.eu/player-small.js in your own product.
-
-    // // See http://sb.bitsnbites.eu/demo.html for an example of how to
-    // // use it in a demo.
-
-    // // Song data
-    // var song = {
-    //     songData: [
-    //       { // Instrument 0
-    //         i: [
-    //         2, // OSC1_WAVEFORM
-    //         100, // OSC1_VOL
-    //         128, // OSC1_SEMI
-    //         0, // OSC1_XENV
-    //         3, // OSC2_WAVEFORM
-    //         201, // OSC2_VOL
-    //         128, // OSC2_SEMI
-    //         0, // OSC2_DETUNE
-    //         0, // OSC2_XENV
-    //         0, // NOISE_VOL
-    //         5, // ENV_ATTACK
-    //         6, // ENV_SUSTAIN
-    //         58, // ENV_RELEASE
-    //         0, // ARP_CHORD
-    //         0, // ARP_SPEED
-    //         0, // LFO_WAVEFORM
-    //         195, // LFO_AMT
-    //         6, // LFO_FREQ
-    //         1, // LFO_FX_FREQ
-    //         2, // FX_FILTER
-    //         135, // FX_FREQ
-    //         0, // FX_RESONANCE
-    //         0, // FX_DIST
-    //         32, // FX_DRIVE
-    //         147, // FX_PAN_AMT
-    //         6, // FX_PAN_FREQ
-    //         121, // FX_DELAY_AMT
-    //         6 // FX_DELAY_TIME
-    //         ],
-    //         // Patterns
-    //         p: [1],
-    //         // Columns
-    //         c: [
-    //           {n: [123,,135,130,123,,123,,130,131,128,,123,,123,130,135,,135,,123,131,130,,126,,138,,137,,130],
-    //            f: []}
-    //         ]
-    //       },
-    //     ],
-    //     rowLen: 5513,   // In sample lengths
-    //     patternLen: 32,  // Rows per pattern
-    //     endPattern: 0,  // End pattern
-    //     numChannels: 1  // Number of channels
-    //   };
-  
+   

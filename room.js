@@ -61,15 +61,18 @@ export const room = {
 
                 this.g.ctx.drawWall(x1+scaleFactorX,y1+scaleFactorY, x1+scaleFactorX + this.xdiff, y1+scaleFactorY + this.ydiff, x1 +scaleFactorX + this.xdiff, this.g.h - scaleFactorY- this.ydiff, x1 + scaleFactorX, this.g.h - scaleFactorY, currentRoom[3], this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
 
-                // Has text written on wall
+                // Has something on wall
                 if(currentRoom[4] !== 0) {
 
+                    let clipStart = i === 0 ? 0 : x1+scaleFactorX + this.xdiff/10;
+                    let clipWidth = i === 0 ? this.xdiff/2 : this.xdiff - 2*this.xdiff/10;
+
                     this.g.ctx.save();
-                    this.g.ctx.rect(x1+scaleFactorX, 0, x1+scaleFactorX + this.xdiff, this.g.h);
+                    this.g.ctx.rect(clipStart, 0, clipWidth, this.g.h);
                     this.g.ctx.clip();
 
                     this.g.ctx.beginPath();
-                    this.g.ctx.fillStyle = "rgba(0,0,0,0.3)"
+                    this.g.ctx.fillStyle = currentRoom[4].startsWith("c") ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)"
                     this.g.ctx.moveTo(0, this.g.h2-this.g.h2/6)
                     this.g.ctx.lineTo(this.g.w2, this.g.h2)
                     this.g.ctx.lineTo(0, this.g.h2+this.g.h2/6)
@@ -80,18 +83,40 @@ export const room = {
                 }
                 
             } else {
-                
                 this.g.ctx.line(x1+scaleFactorX, y1 + scaleFactorY+this.ydiff, x1+scaleFactorX + this.xdiff, y1 +scaleFactorY + this.ydiff)
-
+                this.g.ctx.line(x1+scaleFactorX, this.g.h - scaleFactorY - this.ydiff, x1+scaleFactorX + this.xdiff, this.g.h - scaleFactorY - this.ydiff)
             }
 
             if(currentRoom[2] === 1) {
+
                 this.g.ctx.line(this.g.w - scaleFactorX, y1 + scaleFactorY, this.g.w - scaleFactorX - this.xdiff, y1 + scaleFactorY + this.ydiff)
                 this.g.ctx.line(this.g.w - scaleFactorX, this.g.h - scaleFactorY, this.g.w - scaleFactorX - this.xdiff, this.g.h - scaleFactorY - this.ydiff)
 
                 this.g.ctx.drawWall(this.g.w - scaleFactorX, y1+scaleFactorY , this.g.w - scaleFactorX - this.xdiff, scaleFactorY + this.ydiff, this.g.w - scaleFactorX - this.xdiff, this.g.h -scaleFactorY - this.ydiff,this.g.w - scaleFactorX, this.g.h - scaleFactorY, currentRoom[3],this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
+
+                // Has something on wall
+                if(currentRoom[6] !== 0) {
+
+                    let clipStart = i === 0 ? this.g.w - this.xdiff/2 : this.g.w-scaleFactorX - this.xdiff + this.xdiff/10;
+                    let clipWidth = i === 0 ? this.xdiff/2 : this.xdiff - 2*this.xdiff/10;
+
+                    this.g.ctx.save();
+                    this.g.ctx.rect(clipStart, 0, clipWidth, this.g.h);
+                    this.g.ctx.clip();
+
+                    this.g.ctx.beginPath();
+                    this.g.ctx.fillStyle = currentRoom[6].startsWith("c") ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)"
+                    this.g.ctx.moveTo(this.g.w, this.g.h2-this.g.h2/6)
+                    this.g.ctx.lineTo(this.g.w2, this.g.h2)
+                    this.g.ctx.lineTo(this.g.w, this.g.h2+this.g.h2/6)
+
+                    this.g.ctx.fill();
+
+                    this.g.ctx.restore();
+                }
             } else {
                 this.g.ctx.line(this.g.w - scaleFactorX, y1 + scaleFactorY + this.ydiff, this.g.w - scaleFactorX - this.xdiff, y1 + scaleFactorY + this.ydiff)
+                this.g.ctx.line(this.g.w - scaleFactorX, this.g.h - scaleFactorY - this.ydiff, this.g.w - scaleFactorX - this.xdiff, this.g.h - scaleFactorY - this.ydiff)
             }
             
             
