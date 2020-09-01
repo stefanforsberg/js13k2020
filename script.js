@@ -3,6 +3,7 @@ import { intro } from './intro.js';
 import { solve } from './solve.js';
 import { navigation} from './navigation.js';
 import { room } from './room.js'
+import { puzzle } from './puzzle.js'
 
 let g = {
     w: 500,
@@ -20,7 +21,10 @@ let g = {
         [1,0,1,0, "#898989",0,0,0,0],
         [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
         [1,1,1,0, "#898989",0,"code70",0,0],
-        [1,1,1,0, "#898989",0,"Slut på betan =)",0,0],
+        [1,0,1,0, "#898989",0,0,0,0],
+        [1,0,1,0, "#898989",0,"Adam. He/him",0,0],
+        [1,1,1,0, "#898989",0,"code100",0,0],
+        [1,1,1,0, "#898989",0,0,0,0],
     ],
     code: {
         code20: ["c20","404", ()=> {
@@ -41,6 +45,14 @@ let g = {
         code70: ["c70","16016", ()=> {
                 const choices = Array.from(Array(21).keys());
                 return generateSelect(choices)+generateSelect(choices)+generateSelect(choices);
+            },()=> {
+                return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
+            }, () => {
+                g.room[7][1] = 0;
+            }],
+        code100: ["c100","100000001000", ()=> {
+                const choices = Array.from(Array(2).keys());
+                return `${generateSelect(choices)+generateSelect(choices)+generateSelect(choices)+generateSelect(choices)}<br />${generateSelect(choices)+generateSelect(choices)+generateSelect(choices)+generateSelect(choices)}<br />${generateSelect(choices)+generateSelect(choices)+generateSelect(choices)+generateSelect(choices)}`;
             },()=> {
                 return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
             }, () => {
@@ -105,23 +117,19 @@ function preloadAudio(player, cb) {
 
     const done = player.generate() >= 1
 
-    console.log("preloading audio " + done)
-
     if(done) {
         const wave = player.createWave()
         const blob = new Blob([wave], {type: "audio/wav"})
         const url = window.URL.createObjectURL(blob)        
         cb(url)
     } else {
-        setTimeout(() => {return preloadAudio(player, cb)}, 500)
+        setTimeout(() => {return preloadAudio(player, cb)}, 100)
     }
 }
 
 function startGame () {
     g.drawRoom = drawRoom;
     g.getRoom = getRoom;
-
-
 
     g.ctx = g.c.getContext("2d");
     g.ctxe = g.ce.getContext("2d");
@@ -131,7 +139,12 @@ function startGame () {
     g.codeOverlay = document.getElementById("codeoverlay")
     g.codeInput = document.getElementById("code");
 
+    puzzle.init(g);
+
     intro.init(g, () => {
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
 
         g.audioSong.loop = true;
         g.audioSong.play();
@@ -154,14 +167,11 @@ function startGame () {
 
     document.getElementById("solve").addEventListener("click", () => {
         
-       
-        g.audioErrorSound.play();
-
         const c = g.code[`code${g.pos}${g.dir}`];
         if(c[3]() === c[1]) {
             // correct
 
-            
+            g.audioSuccessSound.play();
 
             solve.init(g, () => {
                 c[4]();
@@ -176,6 +186,8 @@ function startGame () {
             
 
         } else {
+            puzzle.fail();
+            g.audioErrorSound.play();
             // wrong code
         };
     })
@@ -224,7 +236,8 @@ ready(() => {
     
 
     g.audioSong = new Audio();
-    g.audioErrorSound = new Audio()
+    g.audioErrorSound = new Audio();
+    g.audioSuccessSound = new Audio();
 
     preloadAudio(player, (url) => {
         g.audioSong.src = url;
@@ -232,38 +245,18 @@ ready(() => {
         player.init(songs.errorsound);
 
         preloadAudio(player, (url) => {
-            player.init(songs.errorsound);
             g.audioErrorSound.src = url
 
-            startGame();
+            player.init(songs.successsound);
+
+            preloadAudio(player, (url) => {
+                g.audioSuccessSound.src = url
+    
+                startGame();
+            })
         })
         
     });
-
-    // startGame()
-
-    console.log("done preloading")
-    
-    // player.init(songs.errorsound);
-    // g.audioErrorSound = new Audio()    
-    // g.audioErrorSound.src = preloadAudio(player);
-
-    // player.generate();
-    // var wave = player.createWave();
-    // let audio = document.getElementById("errorsound");
-    // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
-
-    // player.init(songs.song);
-
-    // player.generate();
-    // var wave = player.createWave();
-    // audio = document.getElementById("asong");
-    // audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
-    // audio.load();
-    // audio.play();
-
-    
-
 
 });
 
