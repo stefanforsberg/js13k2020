@@ -6,24 +6,24 @@ export const navigation = {
 
         this.g = g;
         document.getElementById("nav-left").addEventListener("click", (e) => {
-            g.dir--;
-            if(g.dir < 0) { g.dir = 3}
-            this.update();
+            g.room.turnLeft();
         });
 
         document.getElementById("nav-right").addEventListener("click", (e) => {
-            g.dir++;
-            if(g.dir > 3) { g.dir = 0}
-            this.update();
+            g.room.turnRight();
         });
 
         document.getElementById("nav-forward").addEventListener("click", (e) => {
-            
-            const r = g.getRoom();
-            if(r[1] === 0) {
-                g.pos += (g.dir === 0 ? 1 : -1);
-            }
-            this.update();
+
+            g.room.moveForward();
+
+            // console.log("forward: " + g.pos + ", " + g.dir)
+
+            // const r = g.room.getRoom();
+            // if(r[1] === 0) {
+            //     g.pos += (g.dir === 0 ? 1 : -1);
+            // }
+            // this.update();
         });
 
 
@@ -32,9 +32,7 @@ export const navigation = {
 
         document.getElementById("nav-forward").style.opacity = 1
 
-        this.g.drawRoom();
-        
-        const r = this.g.getRoom();
+        const r = this.g.room.getRoom();
         if(r[1] !== 0) {
             document.getElementById("nav-forward").style.opacity = 0
         }

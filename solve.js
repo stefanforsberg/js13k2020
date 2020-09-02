@@ -19,9 +19,51 @@ export const solve = {
 
         this.g.ctxe.strokeStyle = "#f3f3f3"
 
-        this.g.ce.style.display = 'block'
+        this.no01 = document.getElementById("no01")
+        this.no02 = document.getElementById("no02")
+
+        const fontSize = g.w > g.h ? Math.floor(g.h/2) : Math.floor(g.w/2)
+
+        this.no01.style.fontSize = `${fontSize}px`;
+        this.no02.style.fontSize = `${fontSize}px`;
+
+        
 
         this.callback = callback;
+
+        document.getElementById("solve").addEventListener("click", () => {
+
+            console.log("solv")
+        
+            const c = g.room.currentCode[`code${g.pos}${g.dir}`];
+            if(c[3]() === c[1]) {
+                // correct
+    
+                this.g.ce.style.display = 'block'
+
+                c[4]();
+                g.room.currentRoom[g.pos][6] = 0
+                g.navigation.update();
+
+                g.audioSuccessSound.play();
+    
+                // solve.init(g, () => {
+                //     c[4]();
+                //     g.room.currentRoom[g.pos][6] = 0
+                //     g.navigation.update();
+                    
+                // });
+    
+                solve.draw();
+    
+                
+    
+            } else {
+                this.fail();
+                g.audioErrorSound.play();
+                // wrong code
+            };
+        })
     },
 
     draw: function(newtime) {
@@ -29,7 +71,9 @@ export const solve = {
         if(!this.drawing) {
             this.g.ctxe.clearRect(0, 0, this.g.w, this.g.h);
             this.g.ce.style.display = 'none'
-            this.callback();
+            
+            
+
             return;
         }
 
@@ -141,5 +185,15 @@ export const solve = {
     stop: function() {
         this.drawing = false;
         this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
+    },
+
+    fail: function() {
+        this.no01.style.display = 'block';
+        this.no02.style.display = 'block';
+
+        setTimeout(() => {
+            this.no01.style.display = 'none';
+            this.no02.style.display = 'none';
+        },500)
     }
 }
