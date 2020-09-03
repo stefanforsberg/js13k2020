@@ -15,27 +15,28 @@ export const room = {
         this.startRoom = [
             [1,0,1,1, "#898989",0,0,0,"You should not be here"],
             [1,0,1,0, "#898989","4-ever",0,"4-ever",0],
-            [0,1,0,0, "#898989",0,"code20",0,0],
+            [0,1,0,0, "#898989",0,"code20Start",0,0],
             [1,0,1,0, "#898989",0,0,0,0],
-            [1,1,1,0, "#898989",0,"code40",0,0],
+            [1,1,1,0, "#898989",0,"code40Start",0,0],
             [1,0,1,0, "#898989",0,0,0,0],
             [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
-            [1,1,1,0, "#898989",0,"code70",0,0],
+            [1,1,1,0, "#898989",0,"code70Start",0,0],
             [1,0,1,0, "#898989",0,0,0,0],
             [1,0,1,0, "#898989","Adam. He/him",0,0,0],
-            [1,1,1,0, "#898989",0,"code100",0,0],
+            [1,1,1,0, "#898989",0,"code100Start",0,0],
             [1,1,1,0, "#898989",0,0,0,0],
         ]
 
         this.startRoomCode = {
-            code20: ["c20","404", ()=> {
+            code20Start: ["c20","404", ()=> {
                     return this.generateSelect([4])+this.generateSelect([0])+this.generateSelect([4]);
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
+                    console.log("solv")
                     g.room.currentRoom[2][1] = 0;
                 }],
-            code40: ["c40","404", ()=> {
+            code40Start: ["c40","404", ()=> {
                     const choices = Array.from(Array(10).keys());
                     return this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices);
                 },()=> {
@@ -43,7 +44,7 @@ export const room = {
                 }, () => {
                     g.room.currentRoom[4][1] = 0;
                 }],
-            code70: ["c70","16016", ()=> {
+            code70Start: ["c70","16016", ()=> {
                     const choices = Array.from(Array(21).keys());
                     return this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices);
                 },()=> {
@@ -51,9 +52,9 @@ export const room = {
                 }, () => {
                     g.room.currentRoom[7][1] = 0;
                 }],
-            code100: ["c100","100000001000", ()=> {
+            code100Start: ["c100","100000001000", ()=> {
                     const choices = Array.from(Array(2).keys());
-                    return `${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}<br />${generateSelect(choices)+generateSelect(choices)+generateSelect(choices)+generateSelect(choices)}<br />${generateSelect(choices)+generateSelect(choices)+generateSelect(choices)+generateSelect(choices)}`;
+                    return `${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}<br />${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}<br />${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`;
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
@@ -330,5 +331,5 @@ export const room = {
                 }
             }
         }
-    }
+    },
 }

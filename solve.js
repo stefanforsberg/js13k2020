@@ -33,9 +33,10 @@ export const solve = {
 
         document.getElementById("solve").addEventListener("click", () => {
 
-            console.log("solv")
-        
-            const c = g.room.currentCode[`code${g.pos}${g.dir}`];
+            const room = g.room.getRoom();
+
+            const c = g.room.currentCode[room[5]];
+
             if(c[3]() === c[1]) {
                 // correct
     
@@ -46,18 +47,10 @@ export const solve = {
                 g.navigation.update();
 
                 g.audioSuccessSound.play();
-    
-                // solve.init(g, () => {
-                //     c[4]();
-                //     g.room.currentRoom[g.pos][6] = 0
-                //     g.navigation.update();
-                    
-                // });
+
+                g.room.drawRoom();
     
                 solve.draw();
-    
-                
-    
             } else {
                 this.fail();
                 g.audioErrorSound.play();
