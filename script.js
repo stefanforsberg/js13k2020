@@ -9,7 +9,7 @@ let g = {
     h: 250,
     w2: 500/2,
     h2: 250/2,
-    pos: 0,
+    pos: 9,
     dir: 0,
     
     
@@ -105,6 +105,8 @@ function startGame () {
         g.navigation = navigation;
 
         solve.init(g)
+
+        g.solve = solve;
 
         g.room.drawRoom();
     });

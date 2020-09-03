@@ -9,34 +9,36 @@ export const room = {
         this.msg = document.getElementById("message")
         this.msgContainer = document.getElementById("messagecontainer")
         this.codeContainer = document.getElementById("codecontainer");
-        this.codeOverlay = document.getElementById("codeoverlay")
+        this.codeOverlay = document.getElementById("codeoverlay");
         this.codeInput = document.getElementById("code");
+        this.teleportcontainer = document.getElementById("teleportcontainer");
 
         this.startRoom = [
             [1,0,1,1, "#898989",0,0,0,"You should not be here"],
-            [1,0,1,0, "#898989","4-ever",0,"4-ever",0],
-            [0,1,0,0, "#898989",0,"code20Start",0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,1,1,0, "#898989",0,"code20Start",0,0],
             [1,0,1,0, "#898989",0,0,0,0],
             [1,1,1,0, "#898989",0,"code40Start",0,0],
             [1,0,1,0, "#898989",0,0,0,0],
             [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
             [1,1,1,0, "#898989",0,"code70Start",0,0],
             [1,0,1,0, "#898989",0,0,0,0],
-            [1,0,1,0, "#898989","Adam. He/him",0,0,0],
-            [1,1,1,0, "#898989",0,"code100Start",0,0],
-            [1,1,1,0, "#898989",0,0,0,0],
+            [1,0,-1,0, "#898989","First I played with Jenna",0,"#890000",0],
+            [0,0,1,0, "#898989",0,0,"... and then with James and then Martha",0],
+            [1,1,1,0, "#898989",0,"code110Start",0,0],
+            // [1,1,1,0, "#898989",0,"code100Start",0,0],
+            // [1,1,1,0, "#898989",0,0,0,0],
         ]
 
         this.startRoomCode = {
-            code20Start: ["c20","404", ()=> {
+            code20Start: ["c20",51512, ()=> {
                     return this.generateSelect([4])+this.generateSelect([0])+this.generateSelect([4]);
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
-                    console.log("solv")
                     g.room.currentRoom[2][1] = 0;
                 }],
-            code40Start: ["c40","404", ()=> {
+            code40Start: ["c40",51512, ()=> {
                     const choices = Array.from(Array(10).keys());
                     return this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices);
                 },()=> {
@@ -44,15 +46,15 @@ export const room = {
                 }, () => {
                     g.room.currentRoom[4][1] = 0;
                 }],
-            code70Start: ["c70","16016", ()=> {
+            code70Start: ["c70",46908944, ()=> {
                     const choices = Array.from(Array(21).keys());
-                    return this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices);
+                    return "<p class='title'>Andrea</p>" + this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices);
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
                     g.room.currentRoom[7][1] = 0;
                 }],
-            code100Start: ["c100","100000001000", ()=> {
+            code110Start: ["c100",-1199325762, ()=> {
                     const choices = Array.from(Array(2).keys());
                     return `${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}<br />${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}<br />${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`;
                 },()=> {
@@ -63,13 +65,13 @@ export const room = {
         },
 
         this.redRoom = [
-            [1,0,1,0, "#898989",0,0,0,0],
-            [1,0,1,0, "#898989",0,0,0,0],
-            [1,0,1,0, "#898989",0,0,0,0],
-            [1,0,1,0, "#0000ff",0,0,0,0],
-            [1,0,1,0, "#0000ff",0,0,0,0],
-            [1,0,1,0, "#0000ff",0,0,0,0],
-            [1,1,1,0, "#0000ff",0,0,0,0],
+            [1,0,1,1, "#890000",0,0,0,0],
+            [1,0,1,0, "#890000",0,0,"Floor 0: Karen<br/>Floor 1: Amanda<br/>",0],
+            [1,0,1,0, "#890000",0,0,0,0],
+            [-2,0,1,0, "#890000","#898989",0,0,0],
+            [1,0,1,0, "#890000",0,0,0,0],
+            [1,0,1,0, "#890000",0,0,0,0],
+            [1,1,1,0, "#890000",0,0,0,0],
         ],
 
         this.currentCode = this.startRoomCode;
@@ -97,12 +99,18 @@ export const room = {
 
     moveForward: function() {
         const r = this.getRoom();
-        if(r[1] === 0) {
+        console.log(r)
 
-            if(this.g.pos === 2 && this.g.dir === 3) {
+        if(r[1] < 1) {
+
+            if(r[1] === -1) {
                 this.currentRoom = this.redRoom;
-                this.g.pos = 0;
+                this.g.pos = 1;
                 this.g.dir = 0;
+            } else if(r[1] === -2) {
+                this.currentRoom = this.startRoom;
+                this.g.pos = 9;
+                this.g.dir = 3;
             } else {
                 this.g.pos += (this.g.dir === 0 ? 1 : -1);
             }
@@ -119,10 +127,6 @@ export const room = {
     getRoom: function(relativePos = 0) {
 
         console.log(this.g.pos + "," + this.g.dir + "," + relativePos)
-    
-        if(this.g.pos === 2 && this.g.dir === 3) {
-            return [relativePos === 0 ? 0 : 1,0,1, "#898989", 0,0,0];
-        }
     
         if(this.g.dir === 0) {
             relativePos = this.g.pos + relativePos
@@ -150,10 +154,9 @@ export const room = {
 
     drawRoom: function() {
 
-        console.log(this.msgContainer)
-
         this.msgContainer.style.display="none";
         this.codeContainer.style.display="none";
+        this.teleportcontainer.style.display="none";
         this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
 
         const rooms = 3;
@@ -236,6 +239,12 @@ export const room = {
                 
             } else {
                 
+                
+                if(i === 0) {
+                    this.g.ctx.fillStyle = currentRoom[3]
+                    this.g.ctx.fillRect(x1+scaleFactorX,ydiff,xdiff,this.g.h-2*ydiff)
+                }
+
                 this.g.ctx.fillStyle = this.g[`alphaR${i+1}`];
                 this.g.ctx.fillRect(x1+scaleFactorX, y1 + scaleFactorY+ydiff, xdiff, this.g.h - scaleFactorY - ydiff - scaleFactorY - ydiff)
                 
@@ -271,6 +280,11 @@ export const room = {
                     this.g.ctx.restore();
                 }
             } else {
+
+                if(i === 0) {
+                    this.g.ctx.fillStyle = currentRoom[3]
+                    this.g.ctx.fillRect(this.g.w-xdiff,ydiff,xdiff,this.g.h-2*ydiff)
+                }
 
                 this.g.ctx.fillStyle = this.g[`alphaR${i+1}`];
                 this.g.ctx.fillRect(this.g.w - scaleFactorX - xdiff, y1 + scaleFactorY+ydiff, xdiff, this.g.h - scaleFactorY - ydiff - scaleFactorY - ydiff)
@@ -318,17 +332,27 @@ export const room = {
                     this.codeContainer.style.transform = `translate(-50%,-50%) scale(${1-0.4*distance})`
                 }
             } else {
-                this.msg.innerText = room[5];
+                console.log("room 1 : " + room[1])
+                if(room[1] < 0) {
+                    // Teleport
+                    this.teleportcontainer.style.backgroundColor = room[5];
+                    this.teleportcontainer.style.display="block";
+                } else {
+                    this.msg.innerHTML = room[5];
                 
-                this.msg.classList.remove("glitchanimation")
-
-                this.msgContainer.style.display="block";
-                this.msgContainer.style.opacity = `${1-0.4*distance}`
-                this.msgContainer.style.transform = `translate(-50%,-50%) scale(${1-0.4*distance})`
-                
-                if(distance === 0) {
-                    this.msg.classList.add("glitchanimation")
+                    this.msg.classList.remove("glitchanimation")
+    
+                    this.msgContainer.style.display="block";
+                    this.msgContainer.style.opacity = `${1-0.4*distance}`
+                    this.msgContainer.style.transform = `translate(-50%,-50%) scale(${1-0.4*distance})`
+                    
+                    if(distance === 0) {
+                        this.msg.classList.add("glitchanimation")
+                    }
                 }
+                
+
+                
             }
         }
     },

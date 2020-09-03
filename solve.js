@@ -4,7 +4,64 @@ export const solve = {
 
         this.g = g;
         this.fpsInterval = 1000 / 60;
-        this.now = window.performance.now();
+
+
+        this.g.ctxe.strokeStyle = "#f3f3f3"
+
+        this.no01 = document.getElementById("no01")
+        this.no02 = document.getElementById("no02")
+
+        const fontSize = g.w > g.h ? Math.floor(g.h/2) : Math.floor(g.w/2)
+
+        this.no01.style.fontSize = `${fontSize}px`;
+        this.no02.style.fontSize = `${fontSize}px`;
+
+        this.callback = callback;
+
+        document.getElementById("solve").addEventListener("click", () => {
+
+            const room = g.room.getRoom();
+
+            const c = g.room.currentCode[room[5]];
+
+            if(c[3]().hashCode() === c[1] || true) {
+                // correct
+    
+                g.ce.style.display = 'block'
+
+                c[4]();
+                g.room.currentRoom[g.pos][6] = 0
+                g.navigation.update();
+
+                g.audioSuccessSound.play();
+
+                g.room.drawRoom();
+    
+                g.solve.setupDraw();
+                g.solve.draw();
+
+
+            } else {
+                this.fail();
+                g.audioErrorSound.play();
+                // wrong code
+            };
+        })
+
+        String.prototype.hashCode = function(){
+            var hash = 0;
+            if (this.length == 0) return hash;
+            for (let i = 0; i < this.length; i++) {
+                let char = this.charCodeAt(i);
+                hash = ((hash<<5)-hash)+char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        }
+
+    },
+
+    setupDraw: function() {
         this.i = 0;
         this.drawing = true;
 
@@ -17,46 +74,7 @@ export const solve = {
         this.speedx = this.lengthx / 10;
         this.speedy = this.lengthy / 10;
 
-        this.g.ctxe.strokeStyle = "#f3f3f3"
-
-        this.no01 = document.getElementById("no01")
-        this.no02 = document.getElementById("no02")
-
-        const fontSize = g.w > g.h ? Math.floor(g.h/2) : Math.floor(g.w/2)
-
-        this.no01.style.fontSize = `${fontSize}px`;
-        this.no02.style.fontSize = `${fontSize}px`;
-
-        
-
-        this.callback = callback;
-
-        document.getElementById("solve").addEventListener("click", () => {
-
-            const room = g.room.getRoom();
-
-            const c = g.room.currentCode[room[5]];
-
-            if(c[3]() === c[1]) {
-                // correct
-    
-                this.g.ce.style.display = 'block'
-
-                c[4]();
-                g.room.currentRoom[g.pos][6] = 0
-                g.navigation.update();
-
-                g.audioSuccessSound.play();
-
-                g.room.drawRoom();
-    
-                solve.draw();
-            } else {
-                this.fail();
-                g.audioErrorSound.play();
-                // wrong code
-            };
-        })
+        this.now = window.performance.now();
     },
 
     draw: function(newtime) {
@@ -64,8 +82,6 @@ export const solve = {
         if(!this.drawing) {
             this.g.ctxe.clearRect(0, 0, this.g.w, this.g.h);
             this.g.ce.style.display = 'none'
-            
-            
 
             return;
         }
@@ -77,7 +93,6 @@ export const solve = {
             let prevy
 
             for(var i = 0; i < 100; i++) {
-                console.log(this.g.h2 +","+ this.g.w2)
                  
                 this.g.ctxe.strokeStyle = `rgba(255,255,255,${0.8*Math.random()})`
 

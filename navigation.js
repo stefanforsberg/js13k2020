@@ -14,16 +14,7 @@ export const navigation = {
         });
 
         document.getElementById("nav-forward").addEventListener("click", (e) => {
-
             g.room.moveForward();
-
-            // console.log("forward: " + g.pos + ", " + g.dir)
-
-            // const r = g.room.getRoom();
-            // if(r[1] === 0) {
-            //     g.pos += (g.dir === 0 ? 1 : -1);
-            // }
-            // this.update();
         });
 
 
@@ -33,7 +24,8 @@ export const navigation = {
         document.getElementById("nav-forward").style.opacity = 1
 
         const r = this.g.room.getRoom();
-        if(r[1] !== 0) {
+
+        if(r[1] > 0) {
             document.getElementById("nav-forward").style.opacity = 0
         }
     }
