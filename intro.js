@@ -19,6 +19,7 @@ export const intro = {
         this.msgContainer.style.width = Math.floor(0.8*(g.w-(g.xdiff*2))) + "px";
 
         this.title = document.getElementById("title")
+        this.title.style.top = '10%';
         this.title.innerHTML = "<p class='titleanimation2'>Finding Paige</p>";
     },
 

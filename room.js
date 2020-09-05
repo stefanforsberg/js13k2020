@@ -119,7 +119,7 @@ export const room = {
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
-                    g.room.currentRoom[4][1] = 0;
+                    g.room.currentRoom[5][1] = 0;
                 }],
         },
 
