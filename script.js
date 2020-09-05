@@ -42,9 +42,9 @@ function setCanvas() {
     }
 
     g.w = w;
-    g.w2 = w/2;
+    g.w2 = Math.floor(w/2);
     g.h = h;
-    g.h2 = h/2
+    g.h2 = Math.floor(h/2);
 
     g.c.width = w;
     g.c.height = h; 
@@ -55,14 +55,7 @@ function setCanvas() {
     g.xdiff = Math.round(g.w > g.h ? g.w/10 : g.w/8);
     g.ydiff = Math.round(g.w > g.h ? g.h/8 : g.h/15);
 
-    const nav = document.getElementById("navigation")
-    nav.style.bottom = `${g.ydiff}px`
-    nav.style.height = `${Math.floor(1.5*g.ydiff)}px`
 
-    Array.from(nav.getElementsByTagName("svg")).forEach(svg => {
-        svg.setAttribute("width", `${Math.floor(1.5*g.ydiff)}`)
-        svg.setAttribute("height", `${Math.floor(1.5*g.ydiff)}`)
-    })
 }
 
 function preloadAudio(player, cb) {

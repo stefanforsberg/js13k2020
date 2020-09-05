@@ -3,7 +3,7 @@ export const solve = {
     init(g, callback) {
 
         this.g = g;
-        this.fpsInterval = 1000 / 60;
+        this.fpsInterval = 1000 / 33;
 
 
         this.g.ctxe.strokeStyle = "#f3f3f3"
@@ -24,7 +24,9 @@ export const solve = {
 
             const c = g.room.currentCode[room[5]];
 
-            if(c[3]().hashCode() === c[1] || true) {
+            console.log(c[3]() + " / " + c[3]().hashCode())
+
+            if(c[3]().hashCode() === c[1]) {
                 // correct
     
                 g.ce.style.display = 'block'
@@ -48,6 +50,26 @@ export const solve = {
             };
         })
 
+        document.getElementById("cheat").addEventListener("click", () => {
+
+            const room = g.room.getRoom();
+
+            const c = g.room.currentCode[room[5]];
+
+            g.ce.style.display = 'block'
+
+            c[4]();
+            g.room.currentRoom[g.pos][6] = 0
+            g.navigation.update();
+
+            g.audioSuccessSound.play();
+
+            g.room.drawRoom();
+
+            g.solve.setupDraw();
+            g.solve.draw();
+        })
+
         String.prototype.hashCode = function(){
             var hash = 0;
             if (this.length == 0) return hash;
@@ -58,6 +80,10 @@ export const solve = {
             }
             return hash;
         }
+
+    },
+
+    solving: function() {
 
     },
 
