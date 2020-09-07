@@ -27,13 +27,13 @@ let g = {
 
         console.log("increase chaos: " + this.chaos.level)
         
-        if(this.chaos.level < 3) {
+        if(this.chaos.level < 4) {
             this.chaos.colorChance = 0.001
             this.chaos.updateTime = 3000;
-        } else if(this.chaos.level < 6) {
+        } else if(this.chaos.level < 10) {
             this.chaos.colorChance = 0.01
             this.chaos.updateTime = 1000;
-        } else if(this.chaos.level < 10) {
+        } else  {
             this.chaos.colorChance = 0.05
             this.chaos.updateTime = 500;
         }

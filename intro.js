@@ -12,8 +12,18 @@ export const intro = {
 
         this.introText = document.getElementById("introtext")
 
+        this.msgContainer = document.getElementById("messagecontainer")
+
+        this.msgContainer.style.width = Math.floor(0.8*(g.w-(g.xdiff*2))) + "px";
+
+        this.title = document.getElementById("title")
+        this.title.style.top = '15%';
+        this.title.innerHTML = "<p class='titleanimation2'>Finding Paige</p>";
+
         this.paige.addEventListener("click", () => {
             
+            this.title.style.display = 'none';
+
             this.msgContainer.style.display = "block"
 
             this.introText.style.display = 'block'
@@ -25,13 +35,7 @@ export const intro = {
             
         });
 
-        this.msgContainer = document.getElementById("messagecontainer")
 
-        this.msgContainer.style.width = Math.floor(0.8*(g.w-(g.xdiff*2))) + "px";
-
-        this.title = document.getElementById("title")
-        this.title.style.top = '15%';
-        this.title.innerHTML = "<p class='titleanimation2'>Finding Paige</p>";
     },
 
     draw: function(newtime) {
