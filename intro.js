@@ -9,17 +9,28 @@ export const intro = {
 
         this.paige = document.getElementById("paige")
         this.paige.style.display = 'block';
-        this.paige.addEventListener("click", callback);
+
+        this.introText = document.getElementById("introtext")
+
+        this.paige.addEventListener("click", () => {
+            
+            this.msgContainer.style.display = "block"
+
+            this.introText.style.display = 'block'
+            
+            this.introText.addEventListener("click", () => {
+                this.introText.style.display = 'none'
+                callback();
+            });
+            
+        });
 
         this.msgContainer = document.getElementById("messagecontainer")
-
-        this.msgContainer.style.display = "block"
-        this.msgContainer.style.top = "70%"
 
         this.msgContainer.style.width = Math.floor(0.8*(g.w-(g.xdiff*2))) + "px";
 
         this.title = document.getElementById("title")
-        this.title.style.top = '10%';
+        this.title.style.top = '15%';
         this.title.innerHTML = "<p class='titleanimation2'>Finding Paige</p>";
     },
 
