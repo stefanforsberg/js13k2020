@@ -28,12 +28,19 @@ export const room = {
             [1,0,1,0, "#898989",0,0,"Andrea was always such a square",0],
             [1,1,1,0, "#898989",0,"code70Start",0,0],
             [1,0,1,0, "#898989",0,0,"It was always so weird how they name our cat Charlie",0],
-            [1,0,-1,0, "#898989","My best friends lived on Ceadar Street...",0,this.colorRed,0],
-            [-3,0,1,0, "#898989",this.colorBlue,0,"... Main Street and Oxcrowl Street",0],
+            [1,0,-1,0, "#898989","My best friends lived on Ceadar Street, Main Street and Oxcrowl Street",0,this.colorRed,0],
+            [-3,0,1,0, "#898989",this.colorBlue,0,0,0],
             [1,1,1,0, "#898989",0,"code110Start",0,0],
+            [1,1,1,0, "#898989",0,"code120Start",0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989","My step dad Harry basically raised me. My dad is half the man he is.",0,"In some ways Harry and Andrea were very similar",0],
+            [1,1,1,0, "#898989",0,"code150Start",0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
             [1,0,1,0, "#898989",0,0,0,0],
             [1,0,1,0, "#898989","Peter<br/>He/Him",0,0,0],
-            [1,1,1,0, "#898989",0,"code140Start",0,0],
+            [1,1,1,0, "#898989",0,"code210Start",0,0],
             [1,1,1,0, "#898989",0,"The end of beta ^^",0,0],
         ]
 
@@ -41,21 +48,19 @@ export const room = {
             [1,0,1,1, this.colorRed,0,0,0,0],
             [1,0,1,0, this.colorRed,0,0,"Ceadar Street<br/>F0: Karen<br/>F1: Amanda<br/>F2: Joanne<br/>F3: Oliver<br/>F4: Isla<br/>",0],
             [1,0,1,0, this.colorRed,0,0,0,0],
-            [1,0,1,0, this.colorRed,"Help me<br/>. . . - - - . . .",0,0,0],
+            [1,0,-2,0, this.colorRed,"Help me<br/>. . . - - - . . .",0,"#898989",0],
             [1,1,1,0, this.colorRed,0,"code4Red",0,0],
-            [1,0,1,0, this.colorRed,0,0,0,0],
-            [-2,1,1,0, this.colorRed,"#898989",0,0,0],
+            [1,1,1,0, this.colorRed,0,"Red color is unlocked",0,0],
         ],
 
         this.blueRoom = [
             [1,0,1,1, this.colorBlue,0,0,0,0],
             [1,0,1,0, this.colorBlue,0,0,"Main Street<br/>F0: Callum<br/>F1: Reece<br/>F2: Damian<br/>F3: Patricia<br/>F4: Samantha<br/>",0],
             [1,0,1,0, this.colorBlue,"Oxcrowl Street<br/>F0: Jake<br/>F1: John<br/>F2: Margaret<br/>F3: Susan<br/>F4: Sophie<br/>",0,0,0],
-            [1,0,1,0, this.colorBlue,0,0,0,0],
+            [1,0,-2,0, this.colorBlue,0,0,"#898989",0],
             [1,0,1,0, this.colorBlue,"That pervert Mr Andrews was always looking at my legs",0,0,0],
             [1,1,1,0, this.colorBlue,0,"code5Blue",0,0],
-            [1,0,1,0, this.colorBlue,0,0,0,0],
-            [-2,1,1,0, this.colorBlue,"#898989",0,0,0],
+            [1,1,1,0, this.colorBlue,0,"Blue color is unlocked",0,0],
         ],
 
 
@@ -84,25 +89,42 @@ export const room = {
                 }, () => {
                     g.room.currentRoom[7][1] = 0;
                 }],
+            code110Start: ["c110",51512, ()=> {
+                    const choices01 = this.redRoom[4][1] === 1 ? ["Red"] : ["4"];
+                    const choices02 = this.blueRoom[5][1] === 1 ? ["Blue"] : ["0"];
 
-            code110Start: ["c110",-146555803
-            , ()=> {
-                    const choices = ["Reece", "Margaret", "John", "Damian", "Sophie", "Karen", "Callum", "Susan", "Amanda", "Patricia", "Isla", "Samantha", "Joanne", "Oliver", ];
-                    return (`${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`).replace(/<select>/g, "<select style='width:100%'>");
+                    return (`${this.generateSelect(choices01)+this.generateSelect(choices02)+this.generateSelect(["4"])}`).replace(/<select>/g, "<select style='width:100%'>");
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
                     g.room.currentRoom[11][1] = 0;
                 }],
+            code120Start: ["c120",-146555803, ()=> {
+                    const choices = ["Reece", "Margaret", "John", "Damian", "Sophie", "Karen", "Callum", "Susan", "Amanda", "Patricia", "Isla", "Samantha", "Joanne", "Oliver", ];
+                    return (`<p class='title'>Friends</p>${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`).replace(/<select>/g, "<select style='width:100%'>");
+                },()=> {
+                    return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
+                }, () => {
+                    g.room.currentRoom[12][1] = 0;
+                }],
+                code150Start: ["c150",1513197
+            , ()=> {
+                    const choices = Array.from(Array(21).keys());
+                    return (`<p class='title'>Harry / ? / Dad</p>${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`).replace(/<select>/g, "<select style='width:100%'>");
+                },()=> {
+                    return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
+                }, () => {
+                    g.room.currentRoom[15][1] = 0;
+                }],
 
-            code140Start: ["c140",1169578626, ()=> {
+            code210Start: ["c210",1169578626, ()=> {
                     const choices = Array.from(Array(2).keys());
                     const select = this.generateSelect(choices).replace(/<select>/g, "<select style='width:25%'>");
                     return `<p class='title'>Peter</p>${select+select+select+select}<br />${select+select+select+select}<br />${select+select+select+select}`;
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
-                    g.room.currentRoom[14][1] = 0;
+                    g.room.currentRoom[21][1] = 0;
                 }],
 
             code4Red: ["code4Red",-1191407169, ()=> {
