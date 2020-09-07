@@ -95,7 +95,7 @@ export const room = {
                     g.room.currentRoom[11][1] = 0;
                 }],
 
-            code140Start: ["c140",-1199325762, ()=> {
+            code140Start: ["c140",1169578626, ()=> {
                     const choices = Array.from(Array(2).keys());
                     const select = this.generateSelect(choices).replace(/<select>/g, "<select style='width:25%'>");
                     return `<p class='title'>Peter</p>${select+select+select+select}<br />${select+select+select+select}<br />${select+select+select+select}`;
@@ -136,14 +136,14 @@ export const room = {
         this.g.dir--;
         if(this.g.dir < 0) { this.g.dir = 3}
 
-        this.drawRoom();
+        this.drawRoom(true);
     },
 
     turnRight: function() {
         this.g.dir++;
         if(this.g.dir > 3) { this.g.dir = 0}
 
-        this.drawRoom();
+        this.drawRoom(true);
     },
 
     moveForward: function() {
@@ -171,7 +171,7 @@ export const room = {
                 this.g.pos += (this.g.dir === 0 ? 1 : -1);
             }
 
-            this.drawRoom();
+            this.drawRoom(true);
         }
 
         
@@ -205,11 +205,14 @@ export const room = {
         }
     },
 
-    drawRoom: function() {
+    drawRoom: function(update) {
 
-        this.msgContainer.style.display="none";
-        this.codeContainer.style.display="none";
-        this.teleportcontainer.style.display="none";
+        if(update) {
+            this.msgContainer.style.display="none";
+            this.codeContainer.style.display="none";
+            this.teleportcontainer.style.display="none";
+        }
+
         this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
 
         const rooms = 3;
@@ -231,6 +234,10 @@ export const room = {
                 xdiff = Math.floor(xdiff * 0.7)
                 ydiff = Math.floor(ydiff * 0.7)
             }
+
+            console.log(this.g.chaos.level)
+            xdiff = xdiff + Math.floor( (-1*this.g.chaos.level + 2*this.g.chaos.level)*Math.random()*0.3*this.g.chaos.level);
+            ydiff = ydiff + Math.floor( (-1*this.g.chaos.level + 2*this.g.chaos.level)*Math.random()*0.2*this.g.chaos.level);
 
             // Ceiling
             this.g.ctx.fillStyle = currentRoom[3];
@@ -262,12 +269,20 @@ export const room = {
             this.g.ctx.lineTo(x1 +scaleFactorX, y1 + scaleFactorY)
             this.g.ctx.stroke();
 
+
+            let color = currentRoom[3];
+
+            if(Math.random() < this.g.chaos.colorChance ) {
+                color = "#" + Math.floor(Math.random()*16777215).toString(16);
+            }
+
             // Left part of room
             if(currentRoom[0] === 1) {
+
                 this.g.ctx.line(x1+scaleFactorX, y1 +scaleFactorY, x1+scaleFactorX + xdiff, y1 +scaleFactorY + ydiff)
                 this.g.ctx.line(x1+scaleFactorX, this.g.h - scaleFactorY, x1+scaleFactorX + xdiff, this.g.h - scaleFactorY - ydiff)
 
-                this.g.ctx.drawWall(x1+scaleFactorX,y1+scaleFactorY, x1+scaleFactorX + xdiff, y1+scaleFactorY + ydiff, x1 +scaleFactorX + xdiff, this.g.h - scaleFactorY- ydiff, x1 + scaleFactorX, this.g.h - scaleFactorY, currentRoom[3], this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
+                this.g.ctx.drawWall(x1+scaleFactorX,y1+scaleFactorY, x1+scaleFactorX + xdiff, y1+scaleFactorY + ydiff, x1 +scaleFactorX + xdiff, this.g.h - scaleFactorY- ydiff, x1 + scaleFactorX, this.g.h - scaleFactorY, color, this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
 
                 // Has something on wall
                 if(currentRoom[4] !== 0) {
@@ -294,7 +309,7 @@ export const room = {
                 
                 
                 if(i === 0) {
-                    this.g.ctx.fillStyle = currentRoom[3]
+                    this.g.ctx.fillStyle = color
                     this.g.ctx.fillRect(x1+scaleFactorX,ydiff,xdiff,this.g.h-2*ydiff)
                 }
 
@@ -305,12 +320,20 @@ export const room = {
                 this.g.ctx.line(x1+scaleFactorX, this.g.h - scaleFactorY - ydiff, x1+scaleFactorX + xdiff, this.g.h - scaleFactorY - ydiff)
             }
 
+
+            color = currentRoom[3];
+
+            if(Math.random() < this.g.chaos.colorChance ) {
+                color = "#" + Math.floor(Math.random()*16777215).toString(16);
+            }
+
+            // RIght part 
             if(currentRoom[2] === 1) {
 
                 this.g.ctx.line(this.g.w - scaleFactorX, y1 + scaleFactorY, this.g.w - scaleFactorX - xdiff, y1 + scaleFactorY + ydiff)
                 this.g.ctx.line(this.g.w - scaleFactorX, this.g.h - scaleFactorY, this.g.w - scaleFactorX - xdiff, this.g.h - scaleFactorY - ydiff)
 
-                this.g.ctx.drawWall(this.g.w - scaleFactorX, y1+scaleFactorY , this.g.w - scaleFactorX - xdiff, scaleFactorY + ydiff, this.g.w - scaleFactorX - xdiff, this.g.h -scaleFactorY - ydiff,this.g.w - scaleFactorX, this.g.h - scaleFactorY, currentRoom[3],this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
+                this.g.ctx.drawWall(this.g.w - scaleFactorX, y1+scaleFactorY , this.g.w - scaleFactorX - xdiff, scaleFactorY + ydiff, this.g.w - scaleFactorX - xdiff, this.g.h -scaleFactorY - ydiff,this.g.w - scaleFactorX, this.g.h - scaleFactorY, color,this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
 
                 // Has something on wall
                 if(currentRoom[6] !== 0) {
@@ -335,7 +358,7 @@ export const room = {
             } else {
 
                 if(i === 0) {
-                    this.g.ctx.fillStyle = currentRoom[3]
+                    this.g.ctx.fillStyle = color
                     this.g.ctx.fillRect(this.g.w-xdiff,ydiff,xdiff,this.g.h-2*ydiff)
                 }
 
@@ -346,16 +369,24 @@ export const room = {
                 this.g.ctx.line(this.g.w - scaleFactorX, this.g.h - scaleFactorY - ydiff, this.g.w - scaleFactorX - xdiff, this.g.h - scaleFactorY - ydiff)
             }
             
+            // Front
+            color = currentRoom[3];
+
+            if(Math.random() < this.g.chaos.colorChance ) {
+                color = "#" + Math.floor(Math.random()*16777215).toString(16);
+            }
             
             if(currentRoom[1] === 1 || i === (rooms-1)) {
 
-                this.g.ctx.fillStyle = currentRoom[3]
+                this.g.ctx.fillStyle = color
                 this.g.ctx.fillRect(xdiff + scaleFactorX, ydiff + scaleFactorY, this.g.w -2*scaleFactorX - 2*xdiff, this.g.h-2*scaleFactorY - 2*ydiff);
                 this.g.ctx.fillStyle = this.g[`alphaR${i+1}`]
                 this.g.ctx.fillRect(xdiff + scaleFactorX, ydiff + scaleFactorY, this.g.w -2*scaleFactorX - 2*xdiff, this.g.h-2*scaleFactorY - 2*ydiff);
                 this.g.ctx.strokeRect(xdiff + scaleFactorX, ydiff + scaleFactorY, this.g.w -2*scaleFactorX - 2*xdiff, this.g.h-2*scaleFactorY - 2*ydiff);    
 
-                this.drawWallDecorations(currentRoom, i);
+                if(update) {
+                    this.drawWallDecorations(currentRoom, i);
+                }
 
                 // Current room is a wall forward or as far forward as we want to draw, no need to dry and draw anything more
                 break;
@@ -363,7 +394,22 @@ export const room = {
 
         }
 
-        this.g.navigation.update();
+        if(update) {
+            this.g.navigation.update();
+        }
+
+        console.log("to: " + this.timeout)
+        
+        if(!this.timeout && this.g.chaos.level > 0) {
+            console.log("setting new to")
+            this.timeout = setTimeout(() => {
+                console.log("Clearing timeout and setting new: " + this.timeout)
+                clearTimeout(this.timeout);
+                this.timeout = undefined;
+                this.drawRoom(false);
+            }, this.g.chaos.updateTime);
+        }
+        
 
     },
 

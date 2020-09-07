@@ -37,7 +37,9 @@ export const solve = {
 
                 g.audioSuccessSound.play();
 
-                g.room.drawRoom();
+                g.increaseChaos();
+
+                g.room.drawRoom(true);
     
                 g.solve.setupDraw();
                 g.solve.draw();
@@ -64,7 +66,9 @@ export const solve = {
 
             g.audioSuccessSound.play();
 
-            g.room.drawRoom();
+            g.increaseChaos();
+
+            g.room.drawRoom(true);
 
             g.solve.setupDraw();
             g.solve.draw();

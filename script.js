@@ -11,13 +11,38 @@ let g = {
     h2: 250/2,
     pos: 0,
     dir: 0,
-    
+    chaos: {
+        level: 1,
+        updateTime: 10000,
+        colorChance: 0.001
+    },
     
     alphaR0: "rgba(0,0,0,0)",
     alphaR1: "rgba(0,0,0,0.2)",
     alphaR2: "rgba(0,0,0,0.7)",
     alphaR3: "rgba(0,0,0,0.9)",
+    
+    increaseChaos: function() {
+        this.chaos.level++;
+
+        console.log("increase chaos: " + this.chaos.level)
+        
+        if(this.chaos.level < 3) {
+            this.chaos.colorChance = 0.001
+            this.chaos.updateTime = 3000;
+        } else if(this.chaos.level < 6) {
+            this.chaos.colorChance = 0.01
+            this.chaos.updateTime = 1000;
+        } else if(this.chaos.level < 10) {
+            this.chaos.colorChance = 0.05
+            this.chaos.updateTime = 500;
+        }
+        
+
+    }
 };
+
+window.g = g;
 
 function ready(fn) {
     if (document.readyState != 'loading'){
@@ -101,7 +126,7 @@ function startGame () {
 
         g.solve = solve;
 
-        g.room.drawRoom();
+        g.room.drawRoom(true);
     });
 
     intro.draw();
