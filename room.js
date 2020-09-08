@@ -257,12 +257,11 @@ export const room = {
                 ydiff = Math.floor(ydiff * 0.7)
             }
 
-            console.log(this.g.chaos.level)
             xdiff = xdiff + Math.floor( (-1*this.g.chaos.level + 2*this.g.chaos.level)*Math.random()*0.3*this.g.chaos.level);
             ydiff = ydiff + Math.floor( (-1*this.g.chaos.level + 2*this.g.chaos.level)*Math.random()*0.2*this.g.chaos.level);
 
             // Ceiling
-            this.g.ctx.fillStyle = currentRoom[3];
+            this.g.ctx.fillStyle = this.getWallColor(currentRoom[3]);
             this.g.ctx.fillRect(x1+scaleFactorX, y1 +scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
 
             var grd = this.g.ctx.createLinearGradient(x1+scaleFactorX, y1 + scaleFactorY, x1+scaleFactorX, scaleFactorY + ydiff);
@@ -273,7 +272,7 @@ export const room = {
 
             // Floor
 
-            this.g.ctx.fillStyle = currentRoom[3];
+            this.g.ctx.fillStyle = this.getWallColor(currentRoom[3]);
             this.g.ctx.fillRect(x1+scaleFactorX, this.g.h - ydiff - scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
 
             var grd = this.g.ctx.createLinearGradient(0, this.g.h -scaleFactorY, 0, this.g.h - scaleFactorY -ydiff);
@@ -292,11 +291,7 @@ export const room = {
             this.g.ctx.stroke();
 
 
-            let color = currentRoom[3];
-
-            if(Math.random() < this.g.chaos.colorChance ) {
-                color = "#" + Math.floor(Math.random()*16777215).toString(16);
-            }
+            let color = this.getWallColor(currentRoom[3]);
 
             // Left part of room
             if(currentRoom[0] === 1) {
@@ -343,11 +338,7 @@ export const room = {
             }
 
 
-            color = currentRoom[3];
-
-            if(Math.random() < this.g.chaos.colorChance ) {
-                color = "#" + Math.floor(Math.random()*16777215).toString(16);
-            }
+            color = this.getWallColor(currentRoom[3])
 
             // RIght part 
             if(currentRoom[2] === 1) {
@@ -392,11 +383,7 @@ export const room = {
             }
             
             // Front
-            color = currentRoom[3];
-
-            if(Math.random() < this.g.chaos.colorChance ) {
-                color = "#" + Math.floor(Math.random()*16777215).toString(16);
-            }
+            color = this.getWallColor(currentRoom[3])
             
             if(currentRoom[1] === 1 || i === (rooms-1)) {
 
@@ -433,6 +420,16 @@ export const room = {
         }
         
 
+    },
+
+    getWallColor: function(roomColor) {
+        let color = roomColor;
+
+        if(Math.random() < this.g.chaos.colorChance ) {
+            color = "#" + Math.floor(Math.random()*16777215).toString(16);
+        }
+
+        return color;
     },
 
     drawWallDecorations: function(room, distance) {

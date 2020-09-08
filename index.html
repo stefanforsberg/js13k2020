@@ -142,21 +142,7 @@
             97%{opacity: 1}
         }
 
-        @media screen and (max-width: 700px) {
-            body {
-                font-size: 3vw;
-            }
-
-            select {
-                font-size: 3vw;
-            }
-        }
-
-        @media screen and (max-height: 700px) {
-            body {
-                font-size: 5vw;
-            }
-
+        @media (any-hover: none) and (max-height: 900px) {
             select {
                 font-size: 16px;
                 -webkit-appearance: none;
@@ -164,8 +150,8 @@
                 background-color: white;
             }
 
-            option {
-                padding: 5px;
+            body {
+                font-size: 5vw;
             }
         }
         
@@ -254,11 +240,6 @@
     </canvas>
 
     <script src="/script.js"></script>
-
-
-
-
-    
 
 </body>
 </html>
