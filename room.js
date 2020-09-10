@@ -94,7 +94,8 @@ export const room = {
                 }],
             code40Start: ["c40",51512, ()=> {
                     const choices = Array.from(Array(10).keys());
-                    return (this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)).replace(/<select>/g, "<select style='width:33%'>");
+                    const select = this.generateSelect(choices);
+                    return (select+select+select).replace(/<select>/g, "<select style='width:33%'>");
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
@@ -102,7 +103,8 @@ export const room = {
                 }],
             code70Start: ["c70",46908944, ()=> {
                     const choices = Array.from(Array(21).keys());
-                    return ("<p class='title'>Andrea</p>" + this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)).replace(/<select>/g, "<select style='width:33%'>");
+                    const select = this.generateSelect(choices)
+                    return ("<p class='title'>Andrea</p>" + select+select+select).replace(/<select>/g, "<select style='width:33%'>");
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
@@ -120,7 +122,8 @@ export const room = {
                 }],
             code120Start: ["c120",-146555803, ()=> {
                     const choices = ["Reece", "Margaret", "John", "Damian", "Sophie", "Karen", "Callum", "Susan", "Amanda", "Patricia", "Isla", "Samantha", "Joanne", "Oliver", ];
-                    return (`<p class='title'>Friends</p>${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`).replace(/<select>/g, "<select style='width:100%'>");
+                    const select = this.generateSelect(choices);
+                    return (`<p class='title'>Friends</p>${select+select+select}`).replace(/<select>/g, "<select style='width:100%'>");
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
@@ -129,7 +132,8 @@ export const room = {
                 code150Start: ["c150",1513197
             , ()=> {
                     const choices = Array.from(Array(21).keys());
-                    return (`<p class='title'>Harry / ? / Dad</p>${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`).replace(/<select>/g, "<select style='width:100%'>");
+                    const select = this.generateSelect(choices);
+                    return (`<p class='title'>Harry / ? / Dad</p>${select+select+select}`).replace(/<select>/g, "<select style='width:100%'>");
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
@@ -148,7 +152,9 @@ export const room = {
 
             code4Red: ["code4Red",-1191407169, ()=> {
                     const choices = [".","_"];
-                    return (`${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}<br/>${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}<br/>${this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)+this.generateSelect(choices)}`).replace(/<select>/g, "<select style='width:20%'>");
+                    const select = this.generateSelect(choices);
+                    const row = select+select+select+select+select;
+                    return (`${row}<br/>${row}<br/>${row}`).replace(/<select>/g, "<select style='width:20%'>");
                 },()=> {
                     return Array.prototype.map.call(document.getElementsByTagName("select"), (s) => s.value).reduce((t, v) => t + v, "");
                 }, () => {
