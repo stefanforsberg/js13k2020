@@ -1,11 +1,11 @@
 export const navigation = {
     init: function(g) {
 
-        const nav = document.getElementById("navigation")
-        nav.style.bottom = `${g.ydiff}px`
-        nav.style.height = `${Math.floor(1.5*g.ydiff)}px`
+        this.nav = document.getElementById("navigation")
+        this.nav.style.bottom = `${g.ydiff}px`
+        this.nav.style.height = `${Math.floor(1.5*g.ydiff)}px`
     
-        Array.from(nav.getElementsByTagName("svg")).forEach(svg => {
+        Array.from(this.nav.getElementsByTagName("svg")).forEach(svg => {
             svg.setAttribute("width", `${Math.floor(2*g.ydiff)}`)
             svg.setAttribute("height", `${Math.floor(2*g.ydiff)}`)
         })
@@ -28,6 +28,11 @@ export const navigation = {
 
 
     },
+
+    remove: function() {
+        this.nav.style.display = 'none';
+    },
+
     update: function() {
 
         document.getElementById("nav-forward").style.opacity = 1

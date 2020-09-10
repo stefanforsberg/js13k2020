@@ -24,12 +24,8 @@ export const solve = {
 
             const c = g.room.currentCode[room[5]];
 
-            console.log(c[3]() + " / " + c[3]().hashCode())
-
             if(c[3]().hashCode() === c[1]) {
                 // correct
-    
-                g.ce.style.display = 'block'
 
                 c[4]();
                 g.room.currentRoom[g.pos][6] = 0
@@ -92,6 +88,7 @@ export const solve = {
     },
 
     setupDraw: function() {
+        this.g.ce.style.display = 'block'
         this.i = 0;
         this.drawing = true;
 
@@ -213,7 +210,6 @@ export const solve = {
                 this.g.ctxe.line(x-i+2*Math.random()*i, y-i+2*Math.random()*i, x, y)
             }
 
-            console.log((this.speedx / this.lengthx))
             this.g.ctxe.fillStyle = `rgba(255,255,255,0.04)`
             this.g.ctxe.fillRect(this.g.xdiff,this.g.ydiff,this.g.w-this.g.xdiff*2,this.g.h-this.g.ydiff*2);
             

@@ -2,13 +2,12 @@ export const intro = {
 
     init(g, callback) {
         this.g = g;
-        this.fpsInterval = 1000 / 5;
-        this.now = window.performance.now();
-        this.i = 0;
-        this.drawing = true;
+        this.showingIntro = true;
 
-        this.paige = document.getElementById("paige")
-        this.paige.style.display = 'block';
+        this.g.paige = document.getElementById("paige")
+        this.g.paige.style.display = 'block';
+
+        this.g.eye = document.getElementById("eye");
 
         this.introText = document.getElementById("introtext")
 
@@ -17,11 +16,19 @@ export const intro = {
         this.msgContainer.style.width = Math.floor(0.8*(g.w-(g.xdiff*2))) + "px";
 
         this.title = document.getElementById("title")
+
         this.title.style.top = '15%';
+        
         this.title.innerHTML = "<p class='titleanimation2'>Finding Paige</p>";
 
-        this.paige.addEventListener("click", () => {
+        this.g.paige.addEventListener("click", () => {
+
+            if(!this.showingIntro) {
+                return;
+            }
             
+            this.showingIntro = false;
+
             this.title.style.display = 'none';
 
             this.msgContainer.style.display = "block"
@@ -29,6 +36,7 @@ export const intro = {
             this.introText.style.display = 'block'
             
             this.introText.addEventListener("click", () => {
+                this.title.style.top = '50%';
                 this.introText.style.display = 'none'
                 callback();
             });
@@ -38,14 +46,21 @@ export const intro = {
 
     },
 
-    draw: function(newtime) {
+    outro: function() {
+        this.title.style.top = '15%';
+        this.title.innerText = "THANK YOU"
+        this.title.style.display = 'block';
 
+        this.g.solve.setupDraw();
+        this.g.solve.draw();
+
+        this.g.eye.style.display = 'block'
+        this.g.paige.style.display = 'none'
     },
 
     stop: function() {
-        this.drawing = false;
         this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
-        this.paige.style.display = 'none';
+        this.g.paige.style.display = 'none';
         this.title.style.display = 'none';
         this.msgContainer.style.top = "50%"
     }

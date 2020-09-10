@@ -9,7 +9,7 @@ let g = {
     h: 250,
     w2: 500/2,
     h2: 250/2,
-    pos: 0,
+    pos: 28,
     dir: 0,
     chaos: {
         level: 1,
@@ -25,8 +25,6 @@ let g = {
     increaseChaos: function() {
         this.chaos.level++;
 
-        console.log("increase chaos: " + this.chaos.level)
-        
         if(this.chaos.level < 4) {
             this.chaos.colorChance = 0.001
             this.chaos.updateTime = 3000;
@@ -37,8 +35,6 @@ let g = {
             this.chaos.colorChance = 0.05
             this.chaos.updateTime = 500;
         }
-        
-
     }
 };
 
@@ -106,6 +102,8 @@ function startGame () {
 
     g.room = room;
 
+    g.intro = intro;
+
     intro.init(g, () => {
 
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -129,43 +127,6 @@ function startGame () {
         g.room.drawRoom(true);
     });
 
-    intro.draw();
-
-    
-
-
-    
-
-
-
-
-    g.ctx.line = g.ctxe.line = function(x1,y1,x2,y2) {
-        this.beginPath();
-        this.moveTo(x1, y1);
-        this.lineTo(x2, y2);
-        this.stroke();
-    }
-
-    g.ctx.drawWall = function(x1,y1,x2,y2,x3,y3,x4,y4,fill,a1,a2) {
-        g.ctx.beginPath();
-
-        g.ctx.moveTo(x1,y1);
-        g.ctx.lineTo(x2,y2);
-        g.ctx.lineTo(x3,y3);
-        g.ctx.lineTo(x4,y4);
-        g.ctx.lineTo(x1,y1);
-
-        var grd = g.ctx.createLinearGradient(x1, y1, x2, y1);
-        grd.addColorStop(0, a1);
-        grd.addColorStop(1, a2);
-        g.ctx.fillStyle = fill;
-        g.ctx.fill();
-        g.ctx.fillStyle = grd;
-        g.ctx.fill();
-
-        g.ctx.line(x1,y1,x2,y2)
-        g.ctx.line(x3,y3,x4,y4)
-    }
 
     // drawRoom();
 }

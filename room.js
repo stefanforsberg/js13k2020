@@ -41,7 +41,25 @@ export const room = {
             [1,0,1,0, "#898989",0,0,0,0],
             [1,0,1,0, "#898989","Peter<br/>He/Him",0,0,0],
             [1,1,1,0, "#898989",0,"code210Start",0,0],
-            [1,1,1,0, "#898989",0,"The end of beta ^^",0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989","To the north I faced 1000 fears",0,0,0],
+            [1,0,1,0, "#898989","To the south I faced 1 fear",0,0,0],
+            [1,0,1,0, "#898989","To the west I faced 100 fears",0,0,0],
+            [1,0,1,0, "#898989","To the east I faced 10000 fears",0,0,0],
+            [1,1,-10,0, "#898989",0,"My fears","#000000",0],
+            [1,0,1,1, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,1,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,0,1,0, "#898989",0,0,0,0],
+            [1,1,1,0, "#898989",0,0,0,0],
         ]
 
         this.redRoom = [
@@ -63,6 +81,7 @@ export const room = {
             [1,1,1,0, this.colorBlue,0,"Blue color is unlocked",0,0],
         ],
 
+        this.blackRoom = [0,0,0,0, "#000000"]; 
 
 
         this.startRoomCode = {
@@ -148,6 +167,35 @@ export const room = {
         this.currentCode = this.startRoomCode;
         this.currentRoom = this.startRoom;
 
+        g.ctx.line = g.ctxe.line = function(x1,y1,x2,y2) {
+            this.beginPath();
+            this.moveTo(x1, y1);
+            this.lineTo(x2, y2);
+            this.stroke();
+        }
+    
+        g.ctx.drawWall = function(x1,y1,x2,y2,x3,y3,x4,y4,fill,a1,a2) {
+            g.ctx.beginPath();
+    
+            g.ctx.moveTo(x1,y1);
+            g.ctx.lineTo(x2,y2);
+            g.ctx.lineTo(x3,y3);
+            g.ctx.lineTo(x4,y4);
+            g.ctx.lineTo(x1,y1);
+    
+            var grd = g.ctx.createLinearGradient(x1, y1, x2, y1);
+            grd.addColorStop(0, a1);
+            grd.addColorStop(1, a2);
+            g.ctx.fillStyle = fill;
+            g.ctx.fill();
+            g.ctx.fillStyle = grd;
+            g.ctx.fill();
+    
+            g.ctx.line(x1,y1,x2,y2)
+            g.ctx.line(x3,y3,x4,y4)
+        }
+    
+
     },
 
     generateSelect: function(options) {
@@ -169,8 +217,48 @@ export const room = {
     },
 
     moveForward: function() {
+
+        if(this.currentRoom === this.blackRoom) {
+            switch(this.g.dir) {
+                case 0: 
+                    this.fearCount += 1000;
+                    break;
+                case 1: 
+                    this.fearCount += 10000;
+                    break;
+                case 2: 
+                    this.fearCount += 1;
+                    break;
+                case 3: 
+                    this.fearCount += 100;
+                    break;                    
+            }
+
+            if(this.fearCount === 404) {
+                this.body.style.backgroundColor = "#898989";
+                this.currentRoom = this.startRoom;
+                this.g.pos = 28;
+                this.g.dir = 0;
+
+                this.drawRoom(true);
+            }
+
+            if(this.fearCount > 404) {
+                this.g.solve.fail();
+
+                this.body.style.backgroundColor = "#898989";
+                this.currentRoom = this.startRoom;
+                this.g.pos = 27;
+                this.g.dir = 0;
+                this.currentRoom[27][6] = `I faced ${this.fearCount} fears.`
+
+                this.drawRoom(true);
+            }
+
+            return;
+        }
+
         const r = this.getRoom();
-        console.log(r)
 
         if(r[1] < 1) {
 
@@ -189,8 +277,32 @@ export const room = {
                 this.currentRoom = this.blueRoom;
                 this.g.pos = 0;
                 this.g.dir = 0;
-            } else {
+            } else if(r[1] === -10) {
+                this.fearCount = 0;
+                this.body.style.backgroundColor = "#000000";
+                this.currentRoom = this.blackRoom;
+                this.g.pos = 0;
+                this.g.dir = 0;
+            }else {
                 this.g.pos += (this.g.dir === 0 ? 1 : -1);
+            }
+
+            if(this.g.pos >= 28) {
+
+                const percent = 28/this.g.pos;
+
+                this.g.paige.style.display = 'block';
+
+                this.g.paige.style.opacity = 2*(1-percent);
+
+                this.g.c.style.transform = `rotate(${56-2*this.g.pos}deg) scale(${percent})`
+
+                if(this.g.pos === 37) {
+                    this.g.intro.outro();
+                    this.g.navigation.remove();
+                    this.g.c.style.opacity='0'
+                    return;
+                }
             }
 
             this.drawRoom(true);
@@ -201,8 +313,6 @@ export const room = {
 
     getRoom: function(relativePos = 0) {
 
-        console.log(this.g.pos + "," + this.g.dir + "," + relativePos)
-    
         if(this.g.dir === 0) {
             relativePos = this.g.pos + relativePos
         }
@@ -233,6 +343,11 @@ export const room = {
             this.msgContainer.style.display="none";
             this.codeContainer.style.display="none";
             this.teleportcontainer.style.display="none";
+        }
+
+        if(this.currentRoom === this.blackRoom) {
+            this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
+            return;
         }
 
         this.g.ctx.clearRect(0, 0, this.g.w, this.g.h);
@@ -407,12 +522,8 @@ export const room = {
             this.g.navigation.update();
         }
 
-        console.log("to: " + this.timeout)
-        
         if(!this.timeout && this.g.chaos.level > 0) {
-            console.log("setting new to")
             this.timeout = setTimeout(() => {
-                console.log("Clearing timeout and setting new: " + this.timeout)
                 clearTimeout(this.timeout);
                 this.timeout = undefined;
                 this.drawRoom(false);
@@ -450,7 +561,6 @@ export const room = {
                     this.codeContainer.style.transform = `translate(-50%,-50%) scale(${1-0.4*distance})`
                 }
             } else {
-                console.log("room 1 : " + room[1])
                 if(room[1] < 0) {
                     // Teleport
                     this.teleportcontainer.style.backgroundColor = room[5];
@@ -468,9 +578,6 @@ export const room = {
                         this.msg.classList.add("glitchanimation")
                     }
                 }
-                
-
-                
             }
         }
     },
