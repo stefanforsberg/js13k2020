@@ -9,7 +9,7 @@ let g = {
     h: 250,
     w2: 500/2,
     h2: 250/2,
-    pos: 28,
+    pos: 0,
     dir: 0,
     chaos: {
         level: 1,

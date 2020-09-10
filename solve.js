@@ -48,28 +48,6 @@ export const solve = {
             };
         })
 
-        document.getElementById("cheat").addEventListener("click", () => {
-
-            const room = g.room.getRoom();
-
-            const c = g.room.currentCode[room[5]];
-
-            g.ce.style.display = 'block'
-
-            c[4]();
-            g.room.currentRoom[g.pos][6] = 0
-            g.navigation.update();
-
-            g.audioSuccessSound.play();
-
-            g.increaseChaos();
-
-            g.room.drawRoom(true);
-
-            g.solve.setupDraw();
-            g.solve.draw();
-        })
-
         String.prototype.hashCode = function(){
             var hash = 0;
             if (this.length == 0) return hash;

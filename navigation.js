@@ -10,19 +10,25 @@ export const navigation = {
             svg.setAttribute("height", `${Math.floor(2*g.ydiff)}`)
         })
 
-        document.getElementById("nav-left").style.opacity = 1
-        document.getElementById("nav-right").style.opacity = 1
+        this.left = document.getElementById("nav-left")
+        this.right = document.getElementById("nav-right")
+        this.forward = document.getElementById("nav-forward")
+
+        this.right.innerHTML = this.left.innerHTML;
+
+        this.left.style.opacity = 1
+        this.right.style.opacity = 1
 
         this.g = g;
-        document.getElementById("nav-left").addEventListener("click", (e) => {
+        this.left.addEventListener("click", (e) => {
             g.room.turnLeft();
         });
 
-        document.getElementById("nav-right").addEventListener("click", (e) => {
+        this.right.addEventListener("click", (e) => {
             g.room.turnRight();
         });
 
-        document.getElementById("nav-forward").addEventListener("click", (e) => {
+        this.forward.addEventListener("click", (e) => {
             g.room.moveForward();
         });
 
@@ -35,12 +41,12 @@ export const navigation = {
 
     update: function() {
 
-        document.getElementById("nav-forward").style.opacity = 1
+        this.forward.style.opacity = 1
 
         const r = this.g.room.getRoom();
 
         if(r[1] > 0) {
-            document.getElementById("nav-forward").style.opacity = 0
+            this.forward.style.opacity = 0
         }
     }
 }

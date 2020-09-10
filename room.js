@@ -364,9 +364,6 @@ export const room = {
             const scaleFactorX = i*xdiff;
             const scaleFactorY = i*ydiff;
 
-            const x1 = 0;
-            const y1 = 0;
-
             if(i == 2) {
                 xdiff = Math.floor(xdiff * 0.7)
                 ydiff = Math.floor(ydiff * 0.7)
@@ -377,32 +374,32 @@ export const room = {
 
             // Ceiling
             this.g.ctx.fillStyle = this.getWallColor(currentRoom[3]);
-            this.g.ctx.fillRect(x1+scaleFactorX, y1 +scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
+            this.g.ctx.fillRect(scaleFactorX, scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
 
-            var grd = this.g.ctx.createLinearGradient(x1+scaleFactorX, y1 + scaleFactorY, x1+scaleFactorX, scaleFactorY + ydiff);
+            var grd = this.g.ctx.createLinearGradient(scaleFactorX,  scaleFactorY, scaleFactorX, scaleFactorY + ydiff);
             grd.addColorStop(0, this.g[`alphaR${i}`]);
             grd.addColorStop(1, this.g[`alphaR${i+1}`]);
             this.g.ctx.fillStyle = grd;
-            this.g.ctx.fillRect(x1+scaleFactorX, y1 +scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
+            this.g.ctx.fillRect(scaleFactorX, scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
 
             // Floor
 
             this.g.ctx.fillStyle = this.getWallColor(currentRoom[3]);
-            this.g.ctx.fillRect(x1+scaleFactorX, this.g.h - ydiff - scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
+            this.g.ctx.fillRect(scaleFactorX, this.g.h - ydiff - scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
 
             var grd = this.g.ctx.createLinearGradient(0, this.g.h -scaleFactorY, 0, this.g.h - scaleFactorY -ydiff);
             grd.addColorStop(0, this.g[`alphaR${i}`]);
             grd.addColorStop(1, this.g[`alphaR${i+1}`]);
             this.g.ctx.fillStyle = grd;
-            this.g.ctx.fillRect(x1+scaleFactorX, this.g.h - ydiff - scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
+            this.g.ctx.fillRect(scaleFactorX, this.g.h - ydiff - scaleFactorY, this.g.w - 2*scaleFactorX, ydiff);
 
 
             this.g.ctx.beginPath();
-            this.g.ctx.moveTo(x1+scaleFactorX, y1 +scaleFactorY)
-            this.g.ctx.lineTo(this.g.w -scaleFactorX, y1  +scaleFactorY);
+            this.g.ctx.moveTo(scaleFactorX, scaleFactorY)
+            this.g.ctx.lineTo(this.g.w -scaleFactorX, scaleFactorY);
             this.g.ctx.lineTo(this.g.w-scaleFactorX, this.g.h -scaleFactorY);
-            this.g.ctx.lineTo(x1 +scaleFactorX, this.g.h  - scaleFactorY);
-            this.g.ctx.lineTo(x1 +scaleFactorX, y1 + scaleFactorY)
+            this.g.ctx.lineTo(scaleFactorX, this.g.h  - scaleFactorY);
+            this.g.ctx.lineTo(scaleFactorX,  scaleFactorY)
             this.g.ctx.stroke();
 
 
@@ -411,15 +408,15 @@ export const room = {
             // Left part of room
             if(currentRoom[0] === 1) {
 
-                this.g.ctx.line(x1+scaleFactorX, y1 +scaleFactorY, x1+scaleFactorX + xdiff, y1 +scaleFactorY + ydiff)
-                this.g.ctx.line(x1+scaleFactorX, this.g.h - scaleFactorY, x1+scaleFactorX + xdiff, this.g.h - scaleFactorY - ydiff)
+                this.g.ctx.line(scaleFactorX, scaleFactorY, scaleFactorX + xdiff, scaleFactorY + ydiff)
+                this.g.ctx.line(scaleFactorX, this.g.h - scaleFactorY, scaleFactorX + xdiff, this.g.h - scaleFactorY - ydiff)
 
-                this.g.ctx.drawWall(x1+scaleFactorX,y1+scaleFactorY, x1+scaleFactorX + xdiff, y1+scaleFactorY + ydiff, x1 +scaleFactorX + xdiff, this.g.h - scaleFactorY- ydiff, x1 + scaleFactorX, this.g.h - scaleFactorY, color, this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
+                this.g.ctx.drawWall(scaleFactorX,scaleFactorY, scaleFactorX + xdiff, scaleFactorY + ydiff, scaleFactorX + xdiff, this.g.h - scaleFactorY- ydiff, scaleFactorX, this.g.h - scaleFactorY, color, this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
 
                 // Has something on wall
                 if(currentRoom[4] !== 0) {
 
-                    let clipStart = i === 0 ? 0 : x1+scaleFactorX + xdiff/(10/i);
+                    let clipStart = i === 0 ? 0 : scaleFactorX + xdiff/(10/i);
                     let clipWidth = i === 0 ? xdiff/2 : xdiff - 2*xdiff/(10/i);
 
                     this.g.ctx.save();
@@ -442,14 +439,14 @@ export const room = {
                 
                 if(i === 0) {
                     this.g.ctx.fillStyle = color
-                    this.g.ctx.fillRect(x1+scaleFactorX,ydiff,xdiff,this.g.h-2*ydiff)
+                    this.g.ctx.fillRect(scaleFactorX,ydiff,xdiff,this.g.h-2*ydiff)
                 }
 
                 this.g.ctx.fillStyle = this.g[`alphaR${i+1}`];
-                this.g.ctx.fillRect(x1+scaleFactorX, y1 + scaleFactorY+ydiff, xdiff, this.g.h - scaleFactorY - ydiff - scaleFactorY - ydiff)
+                this.g.ctx.fillRect(scaleFactorX,  scaleFactorY+ydiff, xdiff, this.g.h - scaleFactorY - ydiff - scaleFactorY - ydiff)
                 
-                this.g.ctx.line(x1+scaleFactorX, y1 + scaleFactorY+ydiff, x1+scaleFactorX + xdiff, y1 +scaleFactorY + ydiff)
-                this.g.ctx.line(x1+scaleFactorX, this.g.h - scaleFactorY - ydiff, x1+scaleFactorX + xdiff, this.g.h - scaleFactorY - ydiff)
+                this.g.ctx.line(scaleFactorX,  scaleFactorY+ydiff, scaleFactorX + xdiff, scaleFactorY + ydiff)
+                this.g.ctx.line(scaleFactorX, this.g.h - scaleFactorY - ydiff, scaleFactorX + xdiff, this.g.h - scaleFactorY - ydiff)
             }
 
 
@@ -458,10 +455,10 @@ export const room = {
             // RIght part 
             if(currentRoom[2] === 1) {
 
-                this.g.ctx.line(this.g.w - scaleFactorX, y1 + scaleFactorY, this.g.w - scaleFactorX - xdiff, y1 + scaleFactorY + ydiff)
+                this.g.ctx.line(this.g.w - scaleFactorX,  scaleFactorY, this.g.w - scaleFactorX - xdiff,  scaleFactorY + ydiff)
                 this.g.ctx.line(this.g.w - scaleFactorX, this.g.h - scaleFactorY, this.g.w - scaleFactorX - xdiff, this.g.h - scaleFactorY - ydiff)
 
-                this.g.ctx.drawWall(this.g.w - scaleFactorX, y1+scaleFactorY , this.g.w - scaleFactorX - xdiff, scaleFactorY + ydiff, this.g.w - scaleFactorX - xdiff, this.g.h -scaleFactorY - ydiff,this.g.w - scaleFactorX, this.g.h - scaleFactorY, color,this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
+                this.g.ctx.drawWall(this.g.w - scaleFactorX, scaleFactorY , this.g.w - scaleFactorX - xdiff, scaleFactorY + ydiff, this.g.w - scaleFactorX - xdiff, this.g.h -scaleFactorY - ydiff,this.g.w - scaleFactorX, this.g.h - scaleFactorY, color,this.g[`alphaR${i}`], this.g[`alphaR${i+1}`])
 
                 // Has something on wall
                 if(currentRoom[6] !== 0) {
@@ -491,9 +488,9 @@ export const room = {
                 }
 
                 this.g.ctx.fillStyle = this.g[`alphaR${i+1}`];
-                this.g.ctx.fillRect(this.g.w - scaleFactorX - xdiff, y1 + scaleFactorY+ydiff, xdiff, this.g.h - scaleFactorY - ydiff - scaleFactorY - ydiff)
+                this.g.ctx.fillRect(this.g.w - scaleFactorX - xdiff,  scaleFactorY+ydiff, xdiff, this.g.h - scaleFactorY - ydiff - scaleFactorY - ydiff)
 
-                this.g.ctx.line(this.g.w - scaleFactorX, y1 + scaleFactorY + ydiff, this.g.w - scaleFactorX - xdiff, y1 + scaleFactorY + ydiff)
+                this.g.ctx.line(this.g.w - scaleFactorX,  scaleFactorY + ydiff, this.g.w - scaleFactorX - xdiff,  scaleFactorY + ydiff)
                 this.g.ctx.line(this.g.w - scaleFactorX, this.g.h - scaleFactorY - ydiff, this.g.w - scaleFactorX - xdiff, this.g.h - scaleFactorY - ydiff)
             }
             
