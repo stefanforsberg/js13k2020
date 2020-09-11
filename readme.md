@@ -1,4 +1,19 @@
-Minifying svg images:
+# Finding Paige
+
+Entry in [js13k 2020](https://js13kgames.com/) 
+
+Using [Parcel](https://parceljs.org/) for minifying.
+
+### Minifying svg images:
 npm install -g svgo
 svgo paige.svg -o -
-copy and paste to html source
+copy and paste to html source :sweat_smile:
+
+### Music
+Songs created using [SoundBox](https://sb.bitsnbites.eu).
+
+[Main theme](https://sb.bitsnbites.eu/?data=U0JveAwC7d1Na9RAGMDxZ2aSFNoqRfAkxWArRegnsBS8CN714KHgpeDFshSKsKyVsFWWjUsDLtST0JsHj14ET9JTP40X7zUvXXe7TXearjab9v9LJslksptnktyGJ9m-I7Is_rQOt0SHgSOyuf9ORPwpZdxFdWNZLzpK9yZjLU5LRgst7bsyntuWdtfSbou_Y2mPxox_XO8t7e0x-1d2_Lbnw_Z8AQAAAAAAAAAAFKXXAzGHwa1405uPqwdGmfvfP_zues-8vOPzBtHShloyN2rZutYYqL-uNWuNt2V31Obs-IPaTgXi30jm-ka23qgP1IOtelwHAAAAAAAAAABAQY8DkUfBrMisPMn26CMR_6lpOkklzUhzzMiS_qqf0dWUJP-pnyEUij0fqnzxZQiHoxbZSZfR2Ply5evfgeG-nM4F61-FXp7d6Hy1f5ENFoy4_rvkmwEAAAAAAAAAgFJ0sjLnTN-Lt364on61xH_lzjmDR6khwzukdWrqnpj-t2nLtCq-zMXlrDUAAAAAAAAAAABwwtGWiosocbyFbI--KfkDS8mAmT5mdF-y32QZaYPLamlZyqSrQowAAAAAAAAAAADVEmRlW9RKtkP9_CrzS-a5KfhHVR-KAgAAAAAAAAAAAPrMZkfUWmBEXq6siOhPRhlnYca_az57SXv6jTRtRpZzn6zIcNqkf5Us76tdzbKDsugUOJahTwAAAAAAAAAAcO3tByouor44Uw_i6qyj9JGIv-r6Xt7hydsd01c5Hn8bzYk3_zY2LOtJlxt3I5kbVelCbq-qEn_Vnx8AAAAAAAAAAHC1mI8dUUtJRtqavIir31yl37Rm_L3jjLSzKO24vXKuE3ULhTVZ-WhJ9llU2eivpvZQvUi23aDLuldFz3P-_uxdUg8AAAAAAAAAALh-9Hog5jCIt1zvYbw88JRuifhdrz56IM04bq9c-ORROr4QSbR70WEQlCWUdnzzwvH_qCRt6aR9mDynhtzCiKFZAAAAAAAAAABK8Qc)
+
+[Correct solution to puzzle](https://sb.bitsnbites.eu/?data=U0JveAwC7dcxDkBAEEDRmd0lOhqJUqmiE-cRCYlWIxRaonNG4Ri4hOq_W7w1lldkzDaI3RYnbZH0szF7oLasbXq40dNJAAAAAAC_aDqVqhM9XfZ97fLV5qGkt5t8cgYAAAAAP3kA)
+
+[Incorrect solution to puzzle](https://sb.bitsnbites.eu/?data=U0JveAwC6xRlAAIBRoauEkbmroYgRl_9QBshBoZuFkZmHV1mhckslayM7QyjYBSMglEwCkbBKBgFo2AUjIJRMAroAQA)

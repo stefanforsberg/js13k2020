@@ -8,8 +8,8 @@ export const solve = {
 
         this.g.ctxe.strokeStyle = "#f3f3f3"
 
-        this.no01 = document.getElementById("no01")
-        this.no02 = document.getElementById("no02")
+        this.no01 = g.gei("no01")
+        this.no02 = g.gei("no02")
 
         const fontSize = g.w > g.h ? Math.floor(g.h/2) : Math.floor(g.w/2)
 
@@ -18,13 +18,14 @@ export const solve = {
 
         this.callback = callback;
 
-        document.getElementById("solve").addEventListener("click", () => {
+        g.gei("solve").addEventListener("click", () => {
 
             const room = g.room.getRoom();
 
             const c = g.room.currentCode[room[5]];
 
-            if(c[3]().hashCode() === c[1]) {
+            const answer = c[3]().hashCode();
+            if(c[1].some(c => c === answer)) {
                 // correct
 
                 c[4]();

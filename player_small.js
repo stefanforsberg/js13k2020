@@ -25,7 +25,7 @@
 
 "use strict";
 
-var CPlayer = function() {
+export const CPlayer = function() {
 
     //--------------------------------------------------------------------------
     // Private methods

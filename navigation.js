@@ -1,7 +1,7 @@
 export const navigation = {
     init: function(g) {
 
-        this.nav = document.getElementById("navigation")
+        this.nav = g.gei("navigation")
         this.nav.style.bottom = `${g.ydiff}px`
         this.nav.style.height = `${Math.floor(1.5*g.ydiff)}px`
     
@@ -10,9 +10,9 @@ export const navigation = {
             svg.setAttribute("height", `${Math.floor(2*g.ydiff)}`)
         })
 
-        this.left = document.getElementById("nav-left")
-        this.right = document.getElementById("nav-right")
-        this.forward = document.getElementById("nav-forward")
+        this.left = g.gei("nav-left")
+        this.right = g.gei("nav-right")
+        this.forward = g.gei("nav-forward")
 
         this.right.innerHTML = this.left.innerHTML;
 

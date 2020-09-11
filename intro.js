@@ -4,18 +4,18 @@ export const intro = {
         this.g = g;
         this.showingIntro = true;
 
-        this.g.paige = document.getElementById("paige")
-        this.g.paige.style.display = 'block';
+        this.g.paige = g.gei("paige")
+        this.g.paige.style.opacity = "1"
 
-        this.g.eye = document.getElementById("eye");
+        this.g.eye = g.gei("eye");
 
-        this.introText = document.getElementById("introtext")
+        this.introText = g.gei("introtext")
 
-        this.msgContainer = document.getElementById("messagecontainer")
+        this.msgContainer = g.gei("messagecontainer")
 
         this.msgContainer.style.width = Math.floor(0.8*(g.w-(g.xdiff*2))) + "px";
 
-        this.title = document.getElementById("title")
+        this.title = g.gei("title")
 
         this.title.style.top = '15%';
         
@@ -34,8 +34,12 @@ export const intro = {
             this.msgContainer.style.display = "block"
 
             this.introText.style.display = 'block'
+            this.msgContainer.style.background = "rgba(0,0,0,0.8)"
             
             this.introText.addEventListener("click", () => {
+
+                this.msgContainer.style.background = ""
+
                 this.title.style.top = '50%';
                 this.introText.style.display = 'none'
                 callback();
