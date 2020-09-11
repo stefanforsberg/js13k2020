@@ -5,8 +5,11 @@ Entry in [js13k 2020](https://js13kgames.com/)
 Using [Parcel](https://parceljs.org/) for minifying.
 
 ### Minifying svg images:
+
 npm install -g svgo
+
 svgo paige.svg -o -
+
 copy and paste to html source :sweat_smile:
 
 ### Music
